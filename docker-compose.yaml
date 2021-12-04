@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   frontend:
-    image: investing_app_frontend:0.0.1 
+    build: .\frontend
     ports:
       - "80:80"
     networks:
@@ -11,7 +11,7 @@ services:
       - backend
 
   backend:
-    image: investing_app_backend:0.0.1
+    build: .\backend
     ports:
       - "8080:8080"
     networks:
