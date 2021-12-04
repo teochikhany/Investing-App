@@ -5,30 +5,18 @@ services:
     image: investing_app_frontend:0.0.1 
     ports:
       - "80:80"
+    networks:
+      - investing-app-network
     depends_on:
       - backend
 
   backend:
-    image: investing_app
+    image: investing_app_backend:0.0.1
     ports:
       - "8080:8080"
-    deploy:
-      mode: replicated
-      replicas: 2
-    depends_on:
-      - database
-
-  database:
-    image: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./redis:/data
-      
-volumes:
-  redis:
+    networks:
+      - investing-app-network
   
 networks:
-  default:
-    external:
-      name: investoverlaynetwork
+  investing-app-network:
+    attachable: true

@@ -1,3 +1,4 @@
 docker build -t investing_app_frontend:0.0.1 .
 docker run --name invest_angular -p 80:80 -d investing_app_frontend:0.0.1
 
+docker build -t investing_app_backend:0.0.1 .

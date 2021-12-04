@@ -8,7 +8,7 @@ import usj.genielogiciel.investingapp.service.StockService;
 import java.util.List;
 
 //@RestController("/api/v1")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @RestController
 public class StockController
 {
