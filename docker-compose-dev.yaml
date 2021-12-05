@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+
+  frontend:
+    container_name: frontend-dev
+    image:          investing-app-frontend-dev
+    build: 
+      context:      .\frontend
+      dockerfile:   .\Dockerfile-Dev
+    ports:
+      - "4200:4200"
+    networks:
+      - investing-app-network
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend-dev
+    image:          investing-app-backend-dev
+    build: 
+      context:      .\backend
+      dockerfile:   .\Dockerfile-Prod
+    ports:
+      - "8080:8080"
+    networks:
+      - investing-app-network
+      
+  
+networks:
+  investing-app-network:
+    attachable: true
