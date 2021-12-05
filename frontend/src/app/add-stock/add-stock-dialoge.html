@@ -1,21 +1,21 @@
 <h3>Add new Stock</h3>
 
-<div mat-dialog-content>
-    <p>Please add necesarry inforamtion?</p>
+<form #form="ngForm" mat-dialog-content id="ngForm" (ngSubmit)="addStockClick()">
+    <p>Please add necesarry inforamtion</p>
     <mat-form-field>
-        <input matInput [(ngModel)]="new_stock.name" placeholder="name">
+        <input matInput name="Name" [(ngModel)]="new_stock.name" placeholder="Name" required>
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput [(ngModel)]="new_stock.ticker" placeholder="ticker">
+        <input matInput name="Ticker" [(ngModel)]="new_stock.ticker" placeholder="Ticker" required>
     </mat-form-field>
         
     <mat-form-field>
-        <input matInput [(ngModel)]="new_stock.price" placeholder="price">
+        <input matInput name="Price" [(ngModel)]="new_stock.price" placeholder="Price" required>
     </mat-form-field>
-</div>
+</form>
 
 <div mat-dialog-actions>
     <button class="mat-raised-button" style="margin-right: 1em;" (click)="onNoClick()">No Thanks</button>
-    <button class="mat-raised-button" (click)="addStockClick()" cdkFocusInitial>Ok</button>
+    <button class="mat-raised-button" type="submit" form="ngForm" [disabled]="form.invalid">Ok</button>
 </div>
