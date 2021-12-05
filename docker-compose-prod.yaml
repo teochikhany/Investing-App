@@ -2,7 +2,9 @@ version: "3.9"
 services:
 
   frontend:
-    build: .\frontend
+    build: 
+      context:      .\frontend
+      dockerfile:   .\Dockerfile-Prod
     ports:
       - "80:80"
     networks:
@@ -11,7 +13,9 @@ services:
       - backend
 
   backend:
-    build: .\backend
+    build: 
+      context:      .\backend
+      dockerfile:   .\Dockerfile-Prod
     ports:
       - "8080:8080"
     networks:
