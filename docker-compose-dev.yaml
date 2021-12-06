@@ -9,6 +9,8 @@ services:
       dockerfile:   .\Dockerfile-Dev
     ports:
       - "4200:4200"
+    volumes:
+      - ./frontend/:/home/angular/
     networks:
       - investing-app-network
     depends_on:

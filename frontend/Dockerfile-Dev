@@ -10,7 +10,6 @@ RUN npm install --save @angular/material @angular/cdk @angular/animations
 
 COPY ./ /home/angular/
 
-# CMD pwd > stderr
-# CMD sh
-CMD ng serve 
+EXPOSE 4200
 
+ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0", "--poll", "500"]
