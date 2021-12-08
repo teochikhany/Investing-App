@@ -13,13 +13,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms';
+import { PriceValidatorDirective } from './validation/price-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     AddStockComponent,
-    AppAddDialoge
+    AppAddDialoge,
+    PriceValidatorDirective
   ],
   imports: [
     BrowserModule,
