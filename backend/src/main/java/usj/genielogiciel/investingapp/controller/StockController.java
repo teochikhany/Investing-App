@@ -37,7 +37,7 @@ public class StockController
     @PostMapping("/api/v1/stocks")
     private void addStock(@RequestBody Stock stock)
     {
-        System.out.println(stock.getName());
+        System.out.println(stock.getName() + "test");
         stockService.addStock(stock);
     }
 

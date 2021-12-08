@@ -1,0 +1,35 @@
+FROM maven:3.8-openjdk-11-slim
+
+RUN mkdir /home/springboot/
+WORKDIR /home/springboot/
+
+# download all the dependency in the pom file
+COPY ./pom.xml /home/springboot/pom.xml 
+RUN mvn dependency:resolve
+
+# copy the project
+COPY ./ /home/springboot/
+
+# build the project
+RUN mvn clean install
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/home/springboot/target/InvestingApp-0.0.2.jar"]
+
+
+## For IntelliJ IDEA you need:
+
+## to update download an ssh server
+# RUN apt-get -y update
+# RUN apt-get -y install openssh-server
+
+## to edit the ssh configuration
+# RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+# RUN echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
+
+## to download the INtelliJ backend (optional)
+# RUN curl -fSsL --output '/root/.cache/JetBrains/RemoteDev/dist/2d901dd26b850_ideaIU-2021.3.tar.gz' 'https://download.jetbrains.com/idea/ideaIU-2021.3.tar.gz'
+
+## to turn on the ssh server on startup
+# ENTRYPOINT ["service", "ssh", "start", "-D"]
