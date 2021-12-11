@@ -14,31 +14,31 @@ import { MatInputModule } from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms';
 import { PriceValidatorDirective } from './validation/price-validator.directive';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    AddStockComponent,
-    AppAddDialoge,
-    PriceValidatorDirective,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    MatTableModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatIconModule
-  ],
-  exports: [],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomePageComponent,
+        AddStockComponent,
+        AppAddDialoge,
+        PriceValidatorDirective,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        MatTableModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatIconModule
+    ],
+    exports: [],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
