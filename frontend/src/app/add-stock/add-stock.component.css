@@ -2,3 +2,7 @@ button {
     float: right;
     margin-bottom: 1em;
 }
+
+.space-top {
+    margin-top: 0.40em;
+}

@@ -23,7 +23,8 @@ export class AddStockComponent {
 
 @Component({
   selector: 'app-add-stock-dialog',
-  templateUrl: 'add-stock-dialoge.html'
+  templateUrl: 'add-stock-dialoge.html',
+  styleUrls: ['./add-stock.component.css']
 })
 export class AppAddDialoge {
   
