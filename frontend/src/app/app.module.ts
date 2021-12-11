@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms';
 import { PriceValidatorDirective } from './validation/price-validator.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { PriceValidatorDirective } from './validation/price-validator.directive'
     HomePageComponent,
     AddStockComponent,
     AppAddDialoge,
-    PriceValidatorDirective
+    PriceValidatorDirective,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,8 @@ import { PriceValidatorDirective } from './validation/price-validator.directive'
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   exports: [],
   providers: [],
