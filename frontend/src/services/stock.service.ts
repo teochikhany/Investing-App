@@ -43,5 +43,25 @@ export class StockService {
     }).subscribe();
 
   }
+
+  deleteStock(id: number) : void {
+
+    for (let i = 0; i < this.dataSource.length; i++)
+    {
+      if (this.dataSource[i].id == id)
+      {
+        this.dataSource.splice(i, 1);
+        break;
+      }
+    }
+
+    const headers = new HttpHeaders()
+    .append(
+      'Content-Type',
+      'application/json'
+    );
+
+    this.http.delete(this.stocksUrl + id).subscribe();
+  }
 }
 

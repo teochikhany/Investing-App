@@ -43,4 +43,9 @@ export class HomePageComponent implements AfterViewInit, OnInit {
     return this.stockService.getSource();
   }
 
+  deleteRow(id : number): void {
+    this.stockService.deleteStock(id);
+    HomePageComponent.table.renderRows();
+  }
+
 }
