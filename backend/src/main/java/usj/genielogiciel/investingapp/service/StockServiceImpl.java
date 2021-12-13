@@ -38,14 +38,14 @@ public class StockServiceImpl implements StockService
     @Override
     public Stock getStock(int id)
     {
-        logger.info(MessageFormat.format("Getting stock with id: {0}", id));
         final Optional<Stock> stock = stockRepository.findById(id);
-
-        if (!stock.isPresent()) {
-            logger.error(MessageFormat.format("No stock with id: {0}", id));
+        if (!stock.isPresent())
+        {
+            logger.error(MessageFormat.format("Add: No stock with id: {0}", id));
             throw new StockNotFound();
         }
 
+        logger.info(MessageFormat.format("Getting stock with id: {0}", id));
         return stock.get();
     }
 
@@ -60,6 +60,13 @@ public class StockServiceImpl implements StockService
     @Override
     public void deleteStock(int id)
     {
+        final Optional<Stock> stock = stockRepository.findById(id);
+        if (!stock.isPresent())
+        {
+            logger.error(MessageFormat.format("Delete: No stock with id: {0}", id));
+            throw new StockNotFound();
+        }
+
         logger.info(MessageFormat.format("Deleting stock with id: {0}", id));
         stockRepository.deleteById(id);
     }
@@ -67,6 +74,7 @@ public class StockServiceImpl implements StockService
     @Override
     public void updateStock(Stock stock)
     {
+        logger.info(MessageFormat.format("Deleting stock with id: {0}", stock.getId()));
         stockRepository.save(stock);
     }
 }
