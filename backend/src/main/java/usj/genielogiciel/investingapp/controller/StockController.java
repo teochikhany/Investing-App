@@ -8,12 +8,11 @@ import usj.genielogiciel.investingapp.service.StockService;
 
 import java.util.List;
 
-//@RestController("/api/v1")
+@RestController()
 @CrossOrigin("*")
-@RestController
+@RequestMapping("/api/v1/stocks/")
 public class StockController
 {
-
     private final StockService stockService;
 
     @Autowired
@@ -22,39 +21,38 @@ public class StockController
         this.stockService = stockService;
     }
 
-    @GetMapping("/api/v1/stocks")
+    @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     private List<Stock> getAllStocks()
     {
         return stockService.getStocks();
     }
 
-    @GetMapping("/api/v1/stocks/{id}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     private Stock getStock(@PathVariable int id)
     {
         return stockService.getStock(id);
     }
 
-    @PostMapping("/api/v1/stocks")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     private int addStock(@RequestBody Stock stock)
     {
         return stockService.addStock(stock);
     }
 
-    @DeleteMapping("/api/v1/stocks/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     private void deleteStock(@PathVariable int id)
     {
         stockService.deleteStock(id);
     }
 
-    @PutMapping("/api/v1/stocks")
+    @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
     private void updateStock(@RequestBody Stock stock)
     {
         stockService.updateStock(stock);
     }
-
 }
