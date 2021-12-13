@@ -31,18 +31,18 @@ public class StockServiceImpl implements StockService
     {
         List<Stock> stocks = new ArrayList<>();
         stockRepository.findAll().forEach(stocks::add);
-        logger.debug("Getting all stocks: " + stocks.size() + " stocks");
+        logger.info("Getting all stocks: " + stocks.size() + " stocks");
         return Collections.unmodifiableList(stocks);
     }
 
     @Override
     public Stock getStock(int id)
     {
-        logger.debug(MessageFormat.format("Getting stock with id: {0}", id));
+        logger.info(MessageFormat.format("Getting stock with id: {0}", id));
         final Optional<Stock> stock = stockRepository.findById(id);
 
         if (!stock.isPresent()) {
-            logger.error(MessageFormat.format("failed to get stock with id: {0}", id));
+            logger.error(MessageFormat.format("No stock with id: {0}", id));
             throw new StockNotFound();
         }
 
@@ -53,14 +53,14 @@ public class StockServiceImpl implements StockService
     public int addStock(Stock stock)
     {
         final int new_id = stockRepository.save(stock).getId();
-        logger.debug(MessageFormat.format("Adding stock to id: {0}", new_id));
+        logger.info(MessageFormat.format("Adding stock to id: {0}", new_id));
         return new_id;
     }
 
     @Override
     public void deleteStock(int id)
     {
-        logger.debug(MessageFormat.format("Deleting stock with id: {0}", id));
+        logger.info(MessageFormat.format("Deleting stock with id: {0}", id));
         stockRepository.deleteById(id);
     }
 
