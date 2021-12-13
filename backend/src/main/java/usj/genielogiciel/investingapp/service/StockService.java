@@ -10,7 +10,7 @@ public interface StockService
 
     Stock getStock(int id);
 
-    void addStock(Stock stock);
+    int addStock(Stock stock);
 
     void deleteStock(int id);
 
