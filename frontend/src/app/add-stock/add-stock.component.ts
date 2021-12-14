@@ -45,8 +45,7 @@ export class AppAddDialoge {
     }
 
     addStockClick(): void {
-        this.stockService.postStock(this.new_stock);
-        HomePageComponent.table.renderRows();
+        this.stockService.postStock(this.new_stock, HomePageComponent.table);
         this.dialogRef.close();
     }
 
