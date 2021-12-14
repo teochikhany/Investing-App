@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController()
 @CrossOrigin("*")
+// CrossOrigin("http://frontend:4200")
 @RequestMapping("/api/v1/stocks/")
 public class StockController
 {
