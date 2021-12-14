@@ -36,7 +36,6 @@ export class HomePageComponent implements AfterViewInit, OnInit {
 
     getStocks(): void {
         this.stockService.getStocks()
-            .subscribe(stocks => { this.stockService.setSource(stocks); });
     }
 
     getList(): Stock[] {

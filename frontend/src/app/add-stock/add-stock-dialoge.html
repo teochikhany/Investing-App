@@ -15,7 +15,7 @@
             Ticker must not be empty
         </mat-error>
     </mat-form-field>
-        
+
     <mat-form-field class="space-top">
         <input matInput name="Price" [(ngModel)]="new_stock.price" placeholder="Price" #priceNgModel="ngModel" appPriceValidator required>
         <mat-error *ngIf="!priceNgModel?.valid && (priceNgModel?.dirty || priceNgModel?.touched)">

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Stock } from '../models/stock';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable({
@@ -12,18 +12,30 @@ export class StockService {
     private stocksUrl = 'http://localhost:8080/api/v1/stocks/';  // URL to web api
     private dataSource: Stock[] = [];
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
     getSource(): Stock[] {
         return this.dataSource
     }
 
-    setSource(stocks: Stock[]): void {
+    private setSource(stocks: Stock[]): void {
         this.dataSource = stocks;
     }
 
-    getStocks(): Observable<Stock[]> {
-        return this.http.get<Stock[]>(this.stocksUrl)
+    getStocks(): void {
+        this.http.get<Stock[]>(this.stocksUrl, {observe: 'response'})
+            .subscribe(
+            response => {
+                if (response.status == 200) {
+                    this.setSource(response.body!!);
+                }
+                else {
+                    this.snackBar.open("An Error Occurred", "Dismiss");
+                }
+            },
+            err => {
+                this.snackBar.open("Could Not connect to Server", "Dismiss");
+            });
     }
 
     postStock(stock: Stock): void {
