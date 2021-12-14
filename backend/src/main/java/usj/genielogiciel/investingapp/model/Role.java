@@ -12,8 +12,8 @@ import javax.persistence.Id;
 @Entity
 // @Table
 @Data                   // getters and setters
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor      // self-explanatory
+@AllArgsConstructor     // self-explanatory
 public class Role
 {
     @Id
