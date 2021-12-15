@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+// @Table this if for defining a different name to the table
 @Entity
-// @Table
 @Data                   // getters and setters
 @NoArgsConstructor      // self-explanatory
 @AllArgsConstructor     // self-explanatory

@@ -43,7 +43,7 @@ public class StockServiceImpl implements StockService
         if (!stock.isPresent())
         {
             logger.error(MessageFormat.format("Add: No stock with id: {0}", id));
-            throw new StockNotFound();
+            throw new StockNotFound(id);
         }
 
         logger.info(MessageFormat.format("Getting stock with id: {0}", id));
@@ -65,7 +65,7 @@ public class StockServiceImpl implements StockService
         if (!stock.isPresent())
         {
             logger.error(MessageFormat.format("Delete: No stock with id: {0}", id));
-            throw new StockNotFound();
+            throw new StockNotFound(id);
         }
 
         logger.info(MessageFormat.format("Deleting stock with id: {0}", id));

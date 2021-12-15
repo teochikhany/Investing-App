@@ -27,17 +27,17 @@ public class InvestingAppApplication
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    CommandLineRunner run(UserService userService)
-    {
-        return args -> {
-            userService.saveRole(new Role(0, "ROLE_USER"));
-            userService.saveRole(new Role(0, "ROLE_ADMIN"));
-
-            userService.saveUser(new AppUser(0, "teo", "chikhany", "12345", new ArrayList<>()));
-
-            userService.addRoleToUser("chikhany", "ROLE_ADMIN");
-        };
-    }
+//    @Bean
+//    CommandLineRunner run(UserService userService)
+//    {
+//        return args -> {
+//            userService.saveRole(new Role(0, "ROLE_USER"));
+//            userService.saveRole(new Role(0, "ROLE_ADMIN"));
+//
+//            userService.saveUser(new AppUser(0, "teo", "chikhany", "12345", new ArrayList<>()));
+//
+//            userService.addRoleToUser("chikhany", "ROLE_ADMIN");
+//        };
+//    }
 
 }
