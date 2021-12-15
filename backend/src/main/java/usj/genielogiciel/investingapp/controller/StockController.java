@@ -63,8 +63,12 @@ public class StockController
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private void updateStock(@RequestBody @Valid Stock stock)
+    private void updateStock(@RequestBody @Valid Stock stock, Errors errors)
     {
+        if (errors.hasErrors()) {
+            throw new VariableValidation(errors);
+        }
+
         stockService.updateStock(stock);
     }
 }
