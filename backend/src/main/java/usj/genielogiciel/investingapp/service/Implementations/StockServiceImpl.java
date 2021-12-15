@@ -1,4 +1,4 @@
-package usj.genielogiciel.investingapp.service;
+package usj.genielogiciel.investingapp.service.Implementations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import usj.genielogiciel.investingapp.exceptions.StockNotFound;
 import usj.genielogiciel.investingapp.model.Stock;
 import usj.genielogiciel.investingapp.repository.StockRepository;
+import usj.genielogiciel.investingapp.service.StockService;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

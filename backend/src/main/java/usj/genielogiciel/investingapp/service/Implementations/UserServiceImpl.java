@@ -1,4 +1,4 @@
-package usj.genielogiciel.investingapp.service;
+package usj.genielogiciel.investingapp.service.Implementations;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.repository.RoleRepository;
 import usj.genielogiciel.investingapp.repository.UserRepository;
+import usj.genielogiciel.investingapp.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

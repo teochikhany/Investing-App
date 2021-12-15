@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+// @Table this if for defining a different name to the table
 @Entity
-// @Table
 @Data                   // getters and setters
 @NoArgsConstructor
 @AllArgsConstructor
