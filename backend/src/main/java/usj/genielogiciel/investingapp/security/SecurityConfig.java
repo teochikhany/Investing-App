@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import usj.genielogiciel.investingapp.filter.CustomAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,9 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        CustomAuthenticationFilter filter = new CustomAuthenticationFilter(this.authenticationManager());
+        filter.setFilterProcessesUrl("/api/v1/login");
+
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(this.authenticationManager()));
+        http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().anyRequest().authenticated();
+
+        http.addFilter(filter);
     }
 }

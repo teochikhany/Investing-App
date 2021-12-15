@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.Role;
@@ -27,11 +28,13 @@ public class UserServiceImpl implements UserService, UserDetailsService
 {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AppUser saveUser(AppUser user)
     {
         log.info("Saving new user {} to database", user.getName());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
