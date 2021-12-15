@@ -3,6 +3,11 @@ package usj.genielogiciel.investingapp.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.Role;
@@ -10,13 +15,15 @@ import usj.genielogiciel.investingapp.repository.RoleRepository;
 import usj.genielogiciel.investingapp.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor    // constructor with Dependency Injection for repositories
 @Transactional              // to save everything made ?? maybe
 @Slf4j                      // for logging
-public class UserServiceImpl implements UserService
+public class UserServiceImpl implements UserService, UserDetailsService
 {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -56,5 +63,24 @@ public class UserServiceImpl implements UserService
     {
         log.info("Fetching all user");
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        AppUser user = userRepository.findByUsername(username);
+
+        if (user == null)
+        {
+            log.error("User not found in the database");
+            throw new UsernameNotFoundException("User not found in the database");
+        }
+
+        log.info("user found in database: {}", username);
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())) );
+
+        return new User(user.getUsername(), user.getPassword(), authorities);
     }
 }
