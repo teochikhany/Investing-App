@@ -21,10 +21,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service
+@Service                    // Bean
 @RequiredArgsConstructor    // constructor with Dependency Injection for repositories
 @Transactional              // to save everything made ?? maybe
 @Slf4j                      // for logging
+// UserDetailsService is used to make this class the Service for getting SpringBoot Security Users info
 public class UserServiceImpl implements UserService, UserDetailsService
 {
     private final UserRepository userRepository;
@@ -69,9 +70,11 @@ public class UserServiceImpl implements UserService, UserDetailsService
         return userRepository.findAll();
     }
 
+    // making the AppUser the User used by SpringBoot Security for login
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
+        // Finding the AppUser
         AppUser user = userRepository.findByUsername(username);
 
         if (user == null)
@@ -82,9 +85,11 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
         log.info("user found in database: {}", username);
 
+        // finding its roles
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())) );
 
+        // return a SpringBoot User with our AppUser info
         return new User(user.getUsername(), user.getPassword(), authorities);
     }
 }

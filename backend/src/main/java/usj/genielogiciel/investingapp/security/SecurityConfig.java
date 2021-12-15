@@ -27,15 +27,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
+        // Define which Service to get the Users and how to hash the passwords
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        // Creating an Authentication Filter before every Request
         CustomAuthenticationFilter filter = new CustomAuthenticationFilter(this.authenticationManager());
+
+        // Set the endpoint for login, instead of the default /login
         filter.setFilterProcessesUrl("/api/v1/login");
 
+        // Define which route which user (role) has access to
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
@@ -43,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //        http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests().anyRequest().permitAll();
 
+        // Adding the filters to run before each request
         http.addFilter(filter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

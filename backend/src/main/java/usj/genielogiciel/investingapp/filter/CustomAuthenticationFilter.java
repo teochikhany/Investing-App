@@ -39,6 +39,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                                 HttpServletResponse response) throws AuthenticationException
     {
         // can use object mapper to read json instead of form data
+
+        // Get the info from the request
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -57,9 +59,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                             FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException
     {
+        // Get the authenticated User
         User user = (User) authentication.getPrincipal();
+
+        // Generating an Algorithm to encrypt the tokens,
+        // "secret" show not be in the code,
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // not how it should be done in production
 
+        // Creating the access token
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000) )
@@ -67,6 +74,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
+        // Creating the refresh token
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000) )
@@ -76,6 +84,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 //        response.setHeader("access_token", access_token);
 //        response.setHeader("refresh_token", refresh_token);
 
+        // putting the tokens in the response
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);

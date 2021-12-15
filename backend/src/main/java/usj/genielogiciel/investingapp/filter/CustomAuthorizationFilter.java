@@ -34,13 +34,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException
     {
+        // If the user is trying to log in, skip the authorisation process
         if (!request.getServletPath().equals("/api/v1/login"))
         {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
 
+            // Skip if there is no token
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
             {
                 try{
+                    // Reading the token from the request
                     String token = authorizationHeader.substring("Bearer ".length());
 
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // not how it should be done in production
@@ -50,6 +53,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
+                    // Getting the roles of the user
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));
