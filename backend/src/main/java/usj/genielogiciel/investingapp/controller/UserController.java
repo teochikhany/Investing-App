@@ -9,6 +9,7 @@ import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.model.RoleToUserForm;
 import usj.genielogiciel.investingapp.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,13 @@ public class UserController
     }
 
     @PostMapping("/user/save")
-    private ResponseEntity<AppUser> addUser(@RequestBody AppUser user)
+    private ResponseEntity<AppUser> addUser(@RequestBody @Valid AppUser user)
     {
         return new ResponseEntity<AppUser>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/role/save")
-    private ResponseEntity<Role> addRole(@RequestBody Role role)
+    private ResponseEntity<Role> addRole(@RequestBody @Valid Role role)
     {
         return new ResponseEntity<Role>(userService.saveRole(role), HttpStatus.CREATED);
     }

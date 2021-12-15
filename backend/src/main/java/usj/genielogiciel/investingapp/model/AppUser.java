@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,8 +19,15 @@ public class AppUser
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
+
+    @Column(unique = true)
+    @NotEmpty(message = "Username cannot be empty")
     private String username;
+
+    @NotEmpty(message = "Name cannot be empty")
+    private String name;
+
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import usj.genielogiciel.investingapp.model.Stock;
 import usj.genielogiciel.investingapp.service.StockService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController()
@@ -38,7 +39,7 @@ public class StockController
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    private int addStock(@RequestBody Stock stock)
+    private int addStock(@RequestBody @Valid Stock stock)
     {
         return stockService.addStock(stock);
     }
@@ -52,7 +53,7 @@ public class StockController
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
-    private void updateStock(@RequestBody Stock stock)
+    private void updateStock(@RequestBody @Valid Stock stock)
     {
         stockService.updateStock(stock);
     }
