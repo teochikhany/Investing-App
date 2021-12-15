@@ -9,8 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import usj.genielogiciel.investingapp.filter.CustomAuthenticationFilter;
+import usj.genielogiciel.investingapp.filter.CustomAuthorizationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -42,5 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(filter);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
