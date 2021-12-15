@@ -14,7 +14,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.Date;
 
 
-@ControllerAdvice
+@ControllerAdvice   // define this class as the Exception handler for the whole app
 @RestController
 @Slf4j
 public class ExceptionHandeler extends ResponseEntityExceptionHandler
@@ -38,6 +38,17 @@ public class ExceptionHandeler extends ResponseEntityExceptionHandler
 
         ExceptionResponce exceptionResponse
                 = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+
+        return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ExceptionResponce> handleAllExceptions(Exception ex)
+    {
+        log.error("An Unknown Exception has been raised");
+
+        ExceptionResponce exceptionResponse
+                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), "Unknown error");
 
         return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
