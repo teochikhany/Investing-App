@@ -16,11 +16,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms';
 import { PriceValidatorDirective } from './validation/price-validator.directive';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { UserService } from 'src/services/user.service';
 import { LoginComponent } from './login/login.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
@@ -51,7 +51,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
         JwtModule.forRoot({
             config: {
               tokenGetter: () => { return UserService.getAccessToken() },
-              allowedDomains: ["http://localhost:8080/api/v1/**"]
+              allowedDomains: ["localhost:8080"]
             },
         }),
     ],
