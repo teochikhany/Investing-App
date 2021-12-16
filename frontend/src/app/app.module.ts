@@ -49,7 +49,7 @@ import {MatCardModule} from '@angular/material/card';
         JwtModule.forRoot({
             config: {
               tokenGetter: () => { return UserService.getAccessToken() },
-              allowedDomains: ["http://localhost:8080/api/v1/"]
+              allowedDomains: ["http://localhost:8080/api/v1/**"]
             },
         }),
     ],

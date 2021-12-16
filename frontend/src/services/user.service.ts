@@ -22,13 +22,12 @@ export class UserService {
 
     login(user: loginInfo)
     {
-        const headers = new HttpHeaders()
-            .append(
-                'Content-Type',
-                'application/json'
-            );
+        const form = new FormData;
+        form.append('username', user.username);
+        form.append('password', user.password);
 
-        var request = this.http.post<tokens>(this.loginUrl, user, {headers: headers, observe: 'response'})
+        var request = this.http.post<tokens>(this.loginUrl, form, { observe: 'response'})
+
         request.subscribe({
             next: (value: HttpResponse<tokens>) => { UserService.accessToken = value.body?.access_token!! },
             error: err => { this.notification.showError(err); }
