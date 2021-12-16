@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { Stock } from 'src/models/stock';
-import { StockService } from 'src/services/stock.service';
+import { Stock } from 'src/app/models/stock';
+import { StockService } from 'src/app/services/stock.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 

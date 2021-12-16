@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Stock } from 'src/models/stock';
-import { StockService } from 'src/services/stock.service';
+import { Stock } from 'src/app/models/stock';
+import { StockService } from 'src/app/services/stock.service';
 import { StockTableComponent } from '../stocks-table/stocks-table.component';
 
 

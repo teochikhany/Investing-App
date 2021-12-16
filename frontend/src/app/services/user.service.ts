@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { loginInfo } from 'src/models/loginInfo';
+import { loginInfo } from 'src/app/models/loginInfo';
 import { NotificationService } from './notification.service';
-import { tokens } from 'src/models/tokens';
+import { tokens } from 'src/app/models/tokens';
 import { Router } from '@angular/router';
 
 
