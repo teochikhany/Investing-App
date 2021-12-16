@@ -21,6 +21,7 @@ import { UserService } from 'src/services/user.service';
 import { LoginComponent } from './login/login.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import {MatCardModule} from '@angular/material/card';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import {MatCardModule} from '@angular/material/card';
         AppAddDialoge,
         PriceValidatorDirective,
         LoginComponent,
-        HomepageComponent
+        HomepageComponent,
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,
