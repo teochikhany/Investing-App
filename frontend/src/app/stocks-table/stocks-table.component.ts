@@ -8,11 +8,11 @@ import { MatIconRegistry } from '@angular/material/icon';
 
 
 @Component({
-    selector: 'app-home-page',
-    templateUrl: './home-page.component.html',
-    styleUrls: ['./home-page.component.css']
+    selector: 'stocks-table-page',
+    templateUrl: './stocks-table.component.html',
+    styleUrls: ['./stocks-table.component.css']
 })
-export class HomePageComponent implements AfterViewInit, OnInit {
+export class StockTableComponent implements AfterViewInit, OnInit {
 
     @ViewChild(MatTable) stockList!: MatTable<any>;
 
@@ -31,7 +31,7 @@ export class HomePageComponent implements AfterViewInit, OnInit {
 
     ngAfterViewInit(): void {
         this.getStocks();
-        HomePageComponent.table = this.stockList;
+        StockTableComponent.table = this.stockList;
     }
 
     getStocks(): void {
@@ -43,7 +43,7 @@ export class HomePageComponent implements AfterViewInit, OnInit {
     }
 
     deleteRow(id: number): void {
-        this.stockService.deleteStock(id, HomePageComponent.table);
+        this.stockService.deleteStock(id, StockTableComponent.table);
     }
 
 }

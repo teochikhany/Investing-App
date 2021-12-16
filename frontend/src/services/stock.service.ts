@@ -10,7 +10,7 @@ import { NotificationService } from './notification.service';
 })
 export class StockService {
 
-    private stocksUrl = 'http://localhost:8080/api/v1/stocks/';  // URL to web api
+    private readonly stocksUrl = 'http://localhost:8080/api/v1/stocks/';  // URL to web api
     // private stocksUrl = 'http://backend:8080/api/v1/stocks/';
     private dataSource: Stock[] = [];
 

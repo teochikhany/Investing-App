@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Stock } from 'src/models/stock';
 import { StockService } from 'src/services/stock.service';
-import { HomePageComponent } from '../home-page/home-page.component';
+import { StockTableComponent } from '../stocks-table/stocks-table.component';
 
 
 
@@ -45,7 +45,7 @@ export class AppAddDialoge {
     }
 
     addStockClick(): void {
-        this.stockService.postStock(this.new_stock, HomePageComponent.table);
+        this.stockService.postStock(this.new_stock, StockTableComponent.table);
         this.dialogRef.close();
     }
 
