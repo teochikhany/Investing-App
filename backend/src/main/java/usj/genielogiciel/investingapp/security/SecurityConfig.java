@@ -67,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.setAllowCredentials(true);
         // CrossOrigin("http://frontend:4200")
         corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
         corsConfiguration.setAllowCredentials(true);
