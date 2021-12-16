@@ -20,7 +20,6 @@ import usj.genielogiciel.investingapp.filter.CustomAuthorizationFilter;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
@@ -51,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
+        http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
 //        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
-//        http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
+//        http.authorizeRequests().anyRequest().permitAll();
 
         // Adding the filters to run before each request
         http.addFilter(filter);
