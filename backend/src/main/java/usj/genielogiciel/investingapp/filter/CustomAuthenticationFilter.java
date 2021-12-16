@@ -40,6 +40,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     {
         // can use object mapper to read json instead of form data
 
+        log.error(request.getContentType());
         // Get the info from the request
         String username = request.getParameter("username");
         String password = request.getParameter("password");
