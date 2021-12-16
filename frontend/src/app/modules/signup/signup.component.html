@@ -1,6 +1,6 @@
 <mat-card class="example-card">
     <mat-card-header>
-        <mat-card-title>Login</mat-card-title>
+        <mat-card-title>Signup</mat-card-title>
         <mat-card-subtitle>Please provide your credentials</mat-card-subtitle>
     </mat-card-header>
 
@@ -11,14 +11,18 @@
             </mat-form-field>
 
             <mat-form-field>
+                <input matInput [(ngModel)]="user.name" placeholder="name">
+            </mat-form-field>
+
+            <mat-form-field>
                 <input matInput [(ngModel)]="user.password" placeholder="pasdword" type="password">
             </mat-form-field>
         </div>
-        <p>If you don't alread have an account, please <a routerLink="/signup">SignUp</a> </p>
+        <p>Already have an account ?, please <a routerLink="/login">Login</a> </p>
     </mat-card-content>
 
     <mat-card-actions align="end">
-        <button mat-raised-button color="primary" (click)="login()">Primary</button>
+        <button mat-raised-button color="primary" (click)="signup()">Primary</button>
     </mat-card-actions>
 
 </mat-card>

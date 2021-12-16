@@ -22,6 +22,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
 import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
+import { SignupComponent } from './modules/signup/signup.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-f
         PriceValidatorDirective,
         LoginComponent,
         HomepageComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        SignupComponent
     ],
     imports: [
         BrowserModule,
