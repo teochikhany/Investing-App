@@ -23,7 +23,7 @@ import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
 import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
 import { SignupComponent } from './modules/signup/signup.component';
-import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
+// import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
     declarations: [
@@ -63,11 +63,11 @@ import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.inte
 
     exports: [],
     providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptorInterceptor,
-            multi: true
-        }
+        // {
+        //     provide: HTTP_INTERCEPTORS,
+        //     useClass: AuthInterceptorInterceptor,
+        //     multi: true
+        // }
     ],
     bootstrap: [AppComponent]
 })

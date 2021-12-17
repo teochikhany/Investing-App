@@ -22,10 +22,10 @@ export class NotificationService {
 
             this.snackBar.open(error, "Dismiss");
 
-            // if (error.startsWith("The Token has expired on"))
-            // {
-            //     UserService.refreshToken();
-            // }
+            if (error.startsWith("The Token has expired on"))
+            {
+                UserService.refreshToken();
+            }
         }
         else
         {

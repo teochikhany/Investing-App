@@ -5,7 +5,7 @@ import { NotificationService } from './notification.service';
 import { tokens } from 'src/app/models/tokens';
 import { Router } from '@angular/router';
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { retry } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 
 @Injectable({
@@ -15,40 +15,27 @@ export class UserService {
 
     private readonly loginUrl = 'http://localhost:8080/api/v1/login';
     private static readonly refreshTokenUrl = 'http://localhost:8080/api/v1/user/refreshtoken';
-    private static accessToken = ""
+    static accessToken = ""
     private static jwtHelper = new JwtHelperService();
     private static router: Router;
     private static http: HttpClient;
     private static notification: NotificationService;
 
     constructor(private http: HttpClient,
-                private notification: NotificationService,
-                private router: Router) { UserService.router = this.router;
-                                          UserService.http = this.http;
-                                          UserService.notification = this.notification; }
+        private notification: NotificationService,
+        private router: Router) {
+            UserService.router = this.router;
+        UserService.http = this.http;
+        UserService.notification = this.notification;
+    }
 
     static getAccessToken(): string {
         console.log("accessing the token");
 
-        // if ( this.accessToken == "" || this.jwtHelper.isTokenExpired(this.accessToken))
-        // {
-        //     const refresh_token = localStorage.getItem('refresh_token')!!;
-
-        //     if (this.jwtHelper.isTokenExpired(refresh_token))
-        //     {
-        //         this.changeRoute("/login");
-        //     }
-        //     else
-        //     {
-        //         this.refreshToken();
-        //     }
-        // }
-
         return this.accessToken;
     }
 
-    static isAuthenticated() : boolean
-    {
+    static isAuthenticated(): boolean {
         const refresh_token = localStorage.getItem('refresh_token')!!;
 
         const access_token_expired = this.jwtHelper.isTokenExpired(this.accessToken);
@@ -74,17 +61,16 @@ export class UserService {
         });
     }
 
-    static refreshToken()
-    {
+    static refreshToken() {
         console.log("refreshing token");
 
         const refresh_token = localStorage.getItem('refresh_token')!!;
 
         const headers = new HttpHeaders()
-        .append(
-            'Authorization',
-            'Bearer ' + refresh_token
-        );
+            .append(
+                'Authorization',
+                'Bearer ' + refresh_token
+            );
 
         var request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
 
