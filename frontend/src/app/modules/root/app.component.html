@@ -3,4 +3,18 @@
     <a routerLink="/home">Home</a>
 </nav>
 
-<router-outlet></router-outlet>
+
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+        <nav>
+            <a class="nav-link" routerLink="/login">Login</a>
+            <a class="nav-link" routerLink="/home">Home</a>
+        </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <button mat-raised-button color="accent" (click)="sidenav.toggle()" id="sidenav-button"> Pages </button>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

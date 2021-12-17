@@ -23,6 +23,7 @@ import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
 import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
 import { SignupComponent } from './modules/signup/signup.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 // import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
@@ -51,6 +52,7 @@ import { SignupComponent } from './modules/signup/signup.component';
         MatIconModule,
         MatSnackBarModule,
         MatCardModule,
+        MatSidenavModule,
         JwtModule.forRoot({
             config: {
               tokenGetter: () => { return UserService.getAccessToken() },
