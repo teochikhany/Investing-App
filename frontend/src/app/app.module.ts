@@ -7,7 +7,7 @@ import { StockTableComponent } from 'src/app/modules/stocks-table/stocks-table.c
 import { MatTableModule } from '@angular/material/table'
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from "@auth0/angular-jwt";
 import { AddStockComponent, AppAddDialoge } from 'src/app/modules/add-stock/add-stock.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,7 @@ import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
 import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
 import { SignupComponent } from './modules/signup/signup.component';
+import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,13 @@ import { SignupComponent } from './modules/signup/signup.component';
     ],
 
     exports: [],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorInterceptor,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
