@@ -35,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter
                                     FilterChain filterChain) throws ServletException, IOException
     {
         // If the user is trying to log in, skip the authorisation process
-        if (!request.getServletPath().equals("/api/v1/login"))
+        if (!request.getServletPath().equals("/api/v1/login") && !request.getServletPath().equals("/api/v1/user/refreshtoken"))
         {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
 
