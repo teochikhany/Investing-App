@@ -21,6 +21,8 @@ import java.util.Collections;
 public class InvestingAppApplication
 {
 
+    // TODO: add more unit test, for each endpoint, with error code and error messages
+
     public static void main(String[] args)
     {
         SpringApplication.run(InvestingAppApplication.class, args);

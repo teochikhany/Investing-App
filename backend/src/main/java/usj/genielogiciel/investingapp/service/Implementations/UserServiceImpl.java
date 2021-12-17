@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
         if (user == null)
         {
             log.error("User not found in the database");
-            throw new UsernameNotFoundException("User not found in the database");
+            throw new UsernameNotFoundException("username not found");
         }
 
         log.info("user found in database: {}", username);
