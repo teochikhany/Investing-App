@@ -1,23 +1,25 @@
 package usj.genielogiciel.investingapp.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
 @Table
-//@RedisHash("stocks")
 public class Stock
 {
     @Id
     @GeneratedValue
     private int id;
 
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
+
+    @Column(unique = true)
+    @NotEmpty(message = "Ticker cannot be empty")
     private String ticker;
+
     private int price;
 
     public Stock()

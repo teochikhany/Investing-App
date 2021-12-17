@@ -1,0 +1,25 @@
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>Please provide your credentials</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="example-container">
+            <mat-form-field>
+                <input matInput [(ngModel)]="user.username" placeholder="username">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="user.password" placeholder="password" type="password">
+            </mat-form-field>
+        </div>
+        <p>If you don't alread have an account, please <a routerLink="/signup">SignUp</a> </p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="login()">Primary</button>
+    </mat-card-actions>
+
+</mat-card>
+

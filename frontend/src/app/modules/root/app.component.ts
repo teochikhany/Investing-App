@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     title = 'investing-frontend';
+
+    opened: boolean = false;
 }
