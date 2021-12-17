@@ -10,3 +10,14 @@
     margin-left: 1em;
     margin-top: 1em;
 }
+
+#logout {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-bottom: 1em;
+}
+
+#sidenav {
+    width: 10%;
+}

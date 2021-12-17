@@ -25,8 +25,8 @@ export class UserService {
         private notification: NotificationService,
         private router: Router) {
             UserService.router = this.router;
-        UserService.http = this.http;
-        UserService.notification = this.notification;
+            UserService.http = this.http;
+            UserService.notification = this.notification;
     }
 
     static getAccessToken(): string {
@@ -78,6 +78,12 @@ export class UserService {
             next: (value: HttpResponse<tokens>) => { UserService.accessToken = value.body!!.access_token; },
             error: err => { this.notification.showError(err); }
         });
+    }
+
+    static clearTokens()
+    {
+        localStorage.removeItem("refresh_token");
+        this.accessToken = "";
     }
 
     private static changeRoute(route: string) {
