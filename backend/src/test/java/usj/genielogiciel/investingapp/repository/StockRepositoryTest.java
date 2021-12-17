@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import usj.genielogiciel.investingapp.exceptions.StockNotFound;
 import usj.genielogiciel.investingapp.model.Stock;
 
 import java.util.Optional;
@@ -53,7 +52,7 @@ public class StockRepositoryTest
     @Test
     public void AddStockDuplicate()
     {
-        DataIntegrityViolationException thrown = Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             stockRepository.save(new Stock(0, "teo", "addStock", 20));
             stockRepository.save(new Stock(0, "teo", "addStock", 20));
         });
