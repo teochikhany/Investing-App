@@ -53,7 +53,9 @@ import { SignupComponent } from './modules/signup/signup.component';
         JwtModule.forRoot({
             config: {
               tokenGetter: () => { return UserService.getAccessToken() },
-              allowedDomains: ["localhost:8080"]
+              allowedDomains: ["localhost:8080"],
+              disallowedRoutes: ["http://localhost:8080/api/v1/user/refreshtoken",
+                                 "http://localhost:8080/api/v1/login"]
             },
         }),
     ],
