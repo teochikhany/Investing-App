@@ -24,7 +24,7 @@ import { MatCardModule} from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
 import { SignupComponent } from './modules/signup/signup.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-// import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
+import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
     declarations: [
@@ -65,11 +65,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
     exports: [],
     providers: [
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: AuthInterceptorInterceptor,
-        //     multi: true
-        // }
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

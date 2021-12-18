@@ -80,6 +80,22 @@ export class UserService {
         });
     }
 
+    static refreshToken2() : Observable<HttpResponse<tokens>> {
+        console.log("refreshing token");
+
+        const refresh_token = localStorage.getItem('refresh_token')!!;
+
+        const headers = new HttpHeaders()
+            .append(
+                'Authorization',
+                'Bearer ' + refresh_token
+            );
+
+        var request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
+
+        return request;
+    }
+
     static clearTokens()
     {
         localStorage.removeItem("refresh_token");
