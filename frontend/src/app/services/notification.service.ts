@@ -12,9 +12,14 @@ export class NotificationService {
 
     showError(err: any)
     {
+        console.log("notif: " + JSON.stringify(err));
         if (err.status == 0)
         {
             this.snackBar.open("Cannot connect to Server", "Dismiss");
+        }
+        else if (err.error === undefined)
+        {
+            this.snackBar.open("Radnom error", "Dismiss");
         }
         else if (err.error.message === undefined)
         {
@@ -32,5 +37,10 @@ export class NotificationService {
             this.snackBar.open(err.error.message, "Dismiss");
         }
 
+    }
+
+    showMessage(message: string)
+    {
+        this.snackBar.open(message, "Dismiss");
     }
 }

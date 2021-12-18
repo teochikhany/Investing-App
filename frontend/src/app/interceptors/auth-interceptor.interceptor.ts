@@ -7,7 +7,7 @@ import { tokens } from '../models/tokens';
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    constructor(private userService: UserService) { }
 
     // private handleAuthError(err: HttpErrorResponse, request: HttpRequest<unknown>, next: HttpHandler): Observable<any> {
     //     //handle your auth error or rethrow
@@ -29,21 +29,26 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         return next.handle(request).pipe(catchError(error => {
             if (error.status === 403) {
-                console.log(error.error);
-                console.log(JSON.stringify(request));
-                return UserService.refreshToken2().pipe(
+                console.log("interceptor " + JSON.stringify(error.error));
+                console.log("interceptor " + JSON.stringify(request));
+                return this.userService.refreshToken2().pipe(
+                    tap(() => console.log("here")),
                     switchMap((value) => {
 
                         console.log("value: " + JSON.stringify(value));
-                        UserService.accessToken = value.body!!.access_token;
+                        this.userService.setAccessToken(value.body!!.access_token);
 
                         const request2 = request.clone({
                             setHeaders: {
-                                "Authorization": "Bearer " + UserService.accessToken
+                                "Authorization": "Bearer " + this.userService.getAccessToken()
                             }
                         });
 
                         return next.handle(request2);
+                    }),
+                    catchError(e => {
+                        console.log("eror: " + e)
+                        return next.handle(request);
                     })
                 );
                 // return next.handle(request) // this works
