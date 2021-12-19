@@ -14,34 +14,32 @@ import { Observable, retry } from 'rxjs';
 export class UserService {
 
     private readonly loginUrl = 'http://localhost:8080/api/v1/login';
-    private static readonly refreshTokenUrl = 'http://localhost:8080/api/v1/user/refreshtoken';
-    static accessToken = ""
-    private static jwtHelper = new JwtHelperService();
-    private static router: Router;
-    private static http: HttpClient;
-    private static notification: NotificationService;
+    private readonly refreshTokenUrl = 'http://localhost:8080/api/v1/user/refreshtoken';
+    private accessToken = ""
+    private jwtHelper = new JwtHelperService();
 
     constructor(private http: HttpClient,
-        private notification: NotificationService,
-        private router: Router) {
-            UserService.router = this.router;
-            UserService.http = this.http;
-            UserService.notification = this.notification;
-    }
+                private notification: NotificationService,
+                private router: Router) {}
 
-    static getAccessToken(): string {
+    getAccessToken(): string {
         console.log("accessing the token");
 
         return this.accessToken;
     }
 
-    static isAuthenticated(): boolean {
+    setAccessToken(token: string)
+    {
+        this.accessToken = token
+        localStorage.setItem('access_token', token);
+    }
+
+    isAuthenticated(): boolean {
         const refresh_token = localStorage.getItem('refresh_token')!!;
-
-        const access_token_expired = this.jwtHelper.isTokenExpired(this.accessToken);
         const refresh_token_expired = this.jwtHelper.isTokenExpired(refresh_token);
+        // const access_token_expired = this.jwtHelper.isTokenExpired(this.accessToken);
 
-        return (!access_token_expired || !refresh_token_expired) && this.accessToken != ""
+        return  !refresh_token_expired
     }
 
     login(user: loginInfo) {
@@ -53,16 +51,36 @@ export class UserService {
 
         request.subscribe({
             next: (value: HttpResponse<tokens>) => {
-                UserService.accessToken = value.body!!.access_token;
+                this.setAccessToken(value.body!!.access_token);
+                // localStorage.setItem('access_token', value.body!!.access_token);
                 localStorage.setItem('refresh_token', value.body!!.refresh_token);
-                UserService.changeRoute("/home");
+                this.changeRoute("/home");
             },
             error: err => { this.notification.showError(err); }
         });
     }
 
-    static refreshToken() {
-        console.log("refreshing token");
+    // static refreshToken() {
+    //     console.log("refreshing token");
+
+    //     const refresh_token = localStorage.getItem('refresh_token')!!;
+
+    //     const headers = new HttpHeaders()
+    //         .append(
+    //             'Authorization',
+    //             'Bearer ' + refresh_token
+    //         );
+
+    //     var request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
+
+    //     request.subscribe({
+    //         next: (value: HttpResponse<tokens>) => { UserService.accessToken = value.body!!.access_token; },
+    //         error: err => { this.notification.showError(err); }
+    //     });
+    // }
+
+    refreshToken2() : Observable<HttpResponse<tokens>> {
+        console.log("refreshing token2");
 
         const refresh_token = localStorage.getItem('refresh_token')!!;
 
@@ -72,21 +90,22 @@ export class UserService {
                 'Bearer ' + refresh_token
             );
 
-        var request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
+        console.log("refreshing token3: " + refresh_token);
 
-        request.subscribe({
-            next: (value: HttpResponse<tokens>) => { UserService.accessToken = value.body!!.access_token; },
-            error: err => { this.notification.showError(err); }
-        });
+        const request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
+
+        console.log("refreshing token4");
+
+        return request;
     }
 
-    static clearTokens()
+    clearTokens()
     {
         localStorage.removeItem("refresh_token");
-        this.accessToken = "";
+        this.setAccessToken("");
     }
 
-    private static changeRoute(route: string) {
-        UserService.router.navigate([route]);
+    private changeRoute(route: string) {
+        this.router.navigate([route]);
     }
 }

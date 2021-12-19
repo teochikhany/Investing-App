@@ -9,10 +9,12 @@ import { UserService } from 'src/app/services/user.service';
 export class AppComponent {
     title = 'investing-frontend';
 
+    constructor(private userService: UserService) {}
+
     opened: boolean = false;
 
     logout()
     {
-        UserService.clearTokens();
+        this.userService.clearTokens();
     }
 }

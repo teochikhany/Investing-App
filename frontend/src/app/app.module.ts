@@ -16,15 +16,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms';
 import { PriceValidatorDirective } from './validation/price-validator.directive';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/user.service';
 import { LoginComponent } from './modules/login/login.component';
 import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
-import { MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { PageNotFoundComponent } from 'src/app/modules/page-not-found/page-not-found.component';
 import { SignupComponent } from './modules/signup/signup.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-// import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
+import { AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
+
+export function getTokens()
+{
+    return localStorage.getItem("access_token");
+}
 
 @NgModule({
     declarations: [
@@ -55,21 +60,21 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         MatSidenavModule,
         JwtModule.forRoot({
             config: {
-              tokenGetter: () => { return UserService.getAccessToken() },
-              allowedDomains: ["localhost:8080"],
-              disallowedRoutes: ["http://localhost:8080/api/v1/user/refreshtoken",
-                                 "http://localhost:8080/api/v1/login"]
+                tokenGetter: getTokens,
+                allowedDomains: ["localhost:8080"],
+                disallowedRoutes: ["http://localhost:8080/api/v1/user/refreshtoken",
+                    "http://localhost:8080/api/v1/login"]
             },
         }),
     ],
 
     exports: [],
     providers: [
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: AuthInterceptorInterceptor,
-        //     multi: true
-        // }
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })
