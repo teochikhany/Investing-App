@@ -5,7 +5,7 @@
             <a class="nav-link" routerLink="/login">Login</a>
             <mat-divider></mat-divider>
             <a class="nav-link" routerLink="/home">Home</a>
-            <button class="nav-link" mat-raised-button color="warn" routerLink="/login" (click)="logout()" id="logout">Logout</button>
+            <button class="nav-link" mat-raised-button color="warn" routerLink="/login" (click)="logout()" id="logout" [disabled]="!isLogedIn()">Logout</button>
         </nav>
     </mat-sidenav>
 

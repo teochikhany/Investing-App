@@ -17,4 +17,9 @@ export class AppComponent {
     {
         this.userService.clearTokens();
     }
+
+    isLogedIn() : boolean
+    {
+        return this.userService.getAccessToken2() != "";
+    }
 }

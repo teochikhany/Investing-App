@@ -20,7 +20,7 @@ export class IsLogedinGuard implements CanActivate {
         if (!isLogedin)
         {
             this.router.navigate(["/login"])
-            this.notification.showMessage("Please login");
+            this.notification.showMessage("Please login first");
         }
 
         return isLogedin;

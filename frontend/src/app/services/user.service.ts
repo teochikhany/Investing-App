@@ -28,6 +28,11 @@ export class UserService {
         return this.accessToken;
     }
 
+    getAccessToken2() : string
+    {
+        return localStorage.getItem("access_token")!!;
+    }
+
     setAccessToken(token: string)
     {
         this.accessToken = token
@@ -39,7 +44,7 @@ export class UserService {
         const refresh_token_expired = this.jwtHelper.isTokenExpired(refresh_token);
         // const access_token_expired = this.jwtHelper.isTokenExpired(this.accessToken);
 
-        return  !refresh_token_expired
+        return !refresh_token_expired
     }
 
     login(user: loginInfo) {
@@ -59,25 +64,6 @@ export class UserService {
             error: err => { this.notification.showError(err); }
         });
     }
-
-    // static refreshToken() {
-    //     console.log("refreshing token");
-
-    //     const refresh_token = localStorage.getItem('refresh_token')!!;
-
-    //     const headers = new HttpHeaders()
-    //         .append(
-    //             'Authorization',
-    //             'Bearer ' + refresh_token
-    //         );
-
-    //     var request = this.http.get<tokens>(this.refreshTokenUrl, { headers: headers, observe: 'response' })
-
-    //     request.subscribe({
-    //         next: (value: HttpResponse<tokens>) => { UserService.accessToken = value.body!!.access_token; },
-    //         error: err => { this.notification.showError(err); }
-    //     });
-    // }
 
     refreshToken2() : Observable<HttpResponse<tokens>> {
         console.log("refreshing token2");
