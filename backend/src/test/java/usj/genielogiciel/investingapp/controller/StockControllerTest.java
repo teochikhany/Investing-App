@@ -39,8 +39,8 @@ public class StockControllerTest
                                                     .param("password", "12345");
 
         MvcResult result = mockMvc.perform(request).andReturn();
-        String responce = result.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(responce);
+        String response = result.getResponse().getContentAsString();
+        JSONObject json = new JSONObject(response);
         accessToken = "Bearer " + json.get("access_token");
     }
 
@@ -79,7 +79,7 @@ public class StockControllerTest
 
         MvcResult result = mockMvc.perform(post(url)
                 .header("Authorization", accessToken)
-                .content(stock.toString())
+                .content(stock)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         int newStockID = Integer.parseInt(result.getResponse().getContentAsString());
 
@@ -90,7 +90,7 @@ public class StockControllerTest
     @Test
     void addStock() throws Exception
     {
-        val stock = createStock("teo", "addStock", "20");
+        val stock = createStock("add", "addStock", "30");
 
         ResultActions resultActions = mockMvc.perform(post(url)
                 .header("Authorization", accessToken)
