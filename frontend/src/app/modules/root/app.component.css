@@ -13,11 +13,15 @@
 
 #logout {
     position: absolute;
-    left: 0;
+    left: 2em;
     bottom: 0;
     margin-bottom: 1em;
 }
 
 #sidenav {
     width: 10%;
+}
+
+a {
+    margin-left: 1.5em;
 }

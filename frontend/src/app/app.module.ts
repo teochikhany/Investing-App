@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { PriceValidatorDirective } from './validation/price-validator.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserService } from 'src/app/services/user.service';
+import { MatDividerModule } from '@angular/material/divider';
 import { LoginComponent } from './modules/login/login.component';
 import { HomepageComponent } from 'src/app/modules/homepage/homepage.component';
 import { MatCardModule } from '@angular/material/card';
@@ -58,6 +58,7 @@ export function getTokens()
         MatSnackBarModule,
         MatCardModule,
         MatSidenavModule,
+        MatDividerModule,
         JwtModule.forRoot({
             config: {
                 tokenGetter: getTokens,

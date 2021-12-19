@@ -1,17 +1,11 @@
-// TODO: this can probably be deleted
-<nav>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/home">Home</a>
-</nav>
-
-
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" id="sidenav">
         <nav>
             <a class="nav-link" routerLink="/signup">Signup</a>
             <a class="nav-link" routerLink="/login">Login</a>
+            <mat-divider></mat-divider>
             <a class="nav-link" routerLink="/home">Home</a>
-            <a class="nav-link" routerLink="/login" (click)="logout()" id="logout">Logout</a>
+            <button class="nav-link" mat-raised-button color="warn" routerLink="/login" (click)="logout()" id="logout">Logout</button>
         </nav>
     </mat-sidenav>
 
