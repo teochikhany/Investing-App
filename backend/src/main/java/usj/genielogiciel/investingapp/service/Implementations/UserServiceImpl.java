@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import usj.genielogiciel.investingapp.exceptions.UserNotFound;
 import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.repository.RoleRepository;
@@ -20,6 +21,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service                    // Bean
 @RequiredArgsConstructor    // constructor with Dependency Injection for repositories
@@ -68,6 +70,20 @@ public class UserServiceImpl implements UserService, UserDetailsService
     {
         log.info("Fetching all user");
         return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(long id)
+    {
+        final Optional<AppUser> user = userRepository.findById(id);
+        if (!user.isPresent())
+        {
+            log.error("Delete: No stock with id: {}", id);
+            throw new UserNotFound(id);
+        }
+
+        log.error("Deleting stock with id: {}", id);
+        userRepository.deleteById(id);
     }
 
     // making the AppUser the User used by SpringBoot Security for login

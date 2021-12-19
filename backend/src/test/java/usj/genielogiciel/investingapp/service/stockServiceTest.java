@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.TransactionSystemException;
 import usj.genielogiciel.investingapp.exceptions.StockNotFound;
 import usj.genielogiciel.investingapp.model.Stock;
 
@@ -69,6 +70,26 @@ public class stockServiceTest
         long newSize = stockService.getStocks().size();
 
         assertEquals(oldSize + 1, newSize);
+    }
+
+    @Test
+    public void addInvalidStockEmptyTicker()
+    {
+        Stock stock = new Stock(0, "name", "", 45);
+
+        Assertions.assertThrows(TransactionSystemException.class, () -> {
+            stockService.addStock(stock);
+        });
+    }
+
+    @Test
+    public void addInvalidStockEmptyName()
+    {
+        Stock stock = new Stock(0, "", "ticker", 45);
+
+        Assertions.assertThrows(TransactionSystemException.class, () -> {
+            stockService.addStock(stock);
+        });
     }
 
     @Test

@@ -30,7 +30,7 @@ public class VariableValidation extends RuntimeException
         // Construct a helpful message for each input violation
         for (ConstraintViolation<?> violation : violationsList)
         {
-            exceptionMessage += violation.getPropertyPath() + " " + violation.getMessage() + "\n";
+            exceptionMessage += violation.getMessage() + "\n";
         }
 
         return exceptionMessage;

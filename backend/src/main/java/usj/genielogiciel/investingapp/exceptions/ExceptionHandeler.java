@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import usj.genielogiciel.investingapp.model.ExceptionResponce;
 
 import java.util.Date;
+import java.util.Objects;
 
 
 @ControllerAdvice   // define this class as the Exception handler for the whole app
@@ -43,12 +44,23 @@ public class ExceptionHandeler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public final ResponseEntity<ExceptionResponce> handleSqlExceptions(DataIntegrityViolationException ex, WebRequest request )
+    public final ResponseEntity<ExceptionResponce> handleSqlExceptions(DataIntegrityViolationException ex, WebRequest request)
     {
-        log.error("Sql Error");
+        String message = "";
+
+        if (Objects.requireNonNull(ex.getMessage()).contains("APP_USER(USERNAME)"))
+        {
+            message = "Username needs to be unique";
+        }
+        else if (ex.getMessage().contains("STOCK(TICKER)"))
+        {
+            message = "Ticker needs to be unique";
+        }
+
+        log.error("Sql Error: {}", message);
 
         ExceptionResponce exceptionResponse
-                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), "Each Ticker has to be unique");
+                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), message);
 
         return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }

@@ -13,7 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import usj.genielogiciel.investingapp.exceptions.VariableValidation;
 import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.model.RoleToUserForm;
@@ -46,14 +48,22 @@ public class UserController
     }
 
     @PostMapping("/user/save")
-    private ResponseEntity<AppUser> addUser(@RequestBody @Valid AppUser user)
+    private ResponseEntity<AppUser> addUser(@RequestBody @Valid AppUser user, Errors errors)
     {
+        if (errors.hasErrors()) {
+            throw new VariableValidation(errors);
+        }
+
         return new ResponseEntity<AppUser>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/role/save")
-    private ResponseEntity<Role> addRole(@RequestBody @Valid Role role)
+    private ResponseEntity<Role> addRole(@RequestBody @Valid Role role, Errors errors)
     {
+        if (errors.hasErrors()) {
+            throw new VariableValidation(errors);
+        }
+
         return new ResponseEntity<Role>(userService.saveRole(role), HttpStatus.CREATED);
     }
 
