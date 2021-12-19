@@ -15,11 +15,15 @@ export class NotificationService {
         console.log("notif: " + JSON.stringify(err));
         if (err.status == 0)
         {
-            this.snackBar.open("Cannot connect to Server", "Dismiss");
+            this.snackBar.open("Cannot connect to Server", "Dismiss", {
+                duration: 3000
+              });
         }
         else if (err.error === undefined)
         {
-            this.snackBar.open("Radnom error", "Dismiss");
+            this.snackBar.open("Radnom error", "Dismiss", {
+                duration: 3000
+              });
         }
         else if (err.error.message === undefined)
         {
@@ -34,13 +38,17 @@ export class NotificationService {
         }
         else
         {
-            this.snackBar.open(err.error.message, "Dismiss");
+            this.snackBar.open(err.error.message, "Dismiss", {
+                duration: 3000
+              });
         }
 
     }
 
     showMessage(message: string)
     {
-        this.snackBar.open(message, "Dismiss");
+        this.snackBar.open(message, "Dismiss", {
+            duration: 3000
+          });
     }
 }
