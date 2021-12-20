@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,6 +89,18 @@ public class StockControllerTest
     }
 
     @Test
+    void getInvalidStock() throws Exception
+    {
+        ResultActions resultActions = mockMvc.perform(get(url+999).header("Authorization", accessToken));
+        resultActions.andExpect(status().isNotFound());
+
+        final MvcResult mvcResult = resultActions.andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        JSONObject json = new JSONObject(response);
+        assertEquals("No Stock with this id: " + 999, json.getString("message"));
+    }
+
+    @Test
     void addStock() throws Exception
     {
         val stock = createStock("add", "addStock", "30");
@@ -97,6 +110,63 @@ public class StockControllerTest
                 .content(stock)
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
         resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    void addStockEmptyName() throws Exception
+    {
+        val stock = createStock("", "addStockEmptyName", "30");
+
+        ResultActions resultActions = mockMvc.perform(post(url)
+                .header("Authorization", accessToken)
+                .content(stock)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+        resultActions.andExpect(status().isBadRequest());
+
+        final MvcResult mvcResult = resultActions.andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        JSONObject json = new JSONObject(response);
+        assertEquals("Name cannot be empty\n", json.getString("message"));
+    }
+
+    @Test
+    void addStockEmptyTicker() throws Exception
+    {
+        val stock = createStock("addStockEmptyTicker", "", "30");
+
+        ResultActions resultActions = mockMvc.perform(post(url)
+                .header("Authorization", accessToken)
+                .content(stock)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+        resultActions.andExpect(status().isBadRequest());
+
+        final MvcResult mvcResult = resultActions.andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        JSONObject json = new JSONObject(response);
+        assertEquals("Ticker cannot be empty\n", json.getString("message"));
+    }
+
+    @Test
+    void addStockDuplicateTicker() throws Exception
+    {
+        val stock = createStock("addStock", "addStockDuplicateTicker", "30");
+
+        ResultActions resultActions2 = mockMvc.perform(post(url)
+                .header("Authorization", accessToken)
+                .content(stock)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+        resultActions2.andExpect(status().isCreated());
+
+        ResultActions resultActions = mockMvc.perform(post(url)
+                .header("Authorization", accessToken)
+                .content(stock)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+        resultActions.andExpect(status().isBadRequest());
+
+        final MvcResult mvcResult = resultActions.andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        JSONObject json = new JSONObject(response);
+        assertEquals("Ticker needs to be unique", json.getString("message"));
     }
 
     private String createStock(String name, String ticker, String price) throws JSONException

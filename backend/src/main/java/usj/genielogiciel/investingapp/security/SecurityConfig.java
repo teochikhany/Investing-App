@@ -49,14 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
         // Define which route which user (role) has access to
         http.cors();
-        http.csrf().disable();
+        http.csrf().disable();  // this disables the csrf protection, TODO: should remove this
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
         http.authorizeRequests().antMatchers(POST,"/api/v1/user/save").permitAll();
         http.authorizeRequests().antMatchers(POST,"/api/v1/role/save").permitAll();
         http.authorizeRequests().antMatchers(GET,"/api/v1/user/refreshtoken").permitAll();
-//        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
-//        http.authorizeRequests().anyRequest().permitAll();
+        // hasAuthority("ROLE_ADMIN") is equal to hasRole("ADMIN"), both check the Collection of GrantedAuthority
+        // http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().authenticated();
 
         // Adding the filters to run before each request

@@ -74,6 +74,8 @@ public class UserController
         return ResponseEntity.ok().build();
     }
 
+    // TODO: should have a logout endpoint? (maybe already have from spring security)
+
     @GetMapping("/user/refreshtoken")
     private void getRefreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
