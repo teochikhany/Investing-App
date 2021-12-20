@@ -1,4 +1,4 @@
-package usj.genielogiciel.investingapp.filter;
+package usj.genielogiciel.investingapp.security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

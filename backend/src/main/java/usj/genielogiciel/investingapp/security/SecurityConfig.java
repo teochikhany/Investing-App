@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import usj.genielogiciel.investingapp.filter.CustomAuthenticationFilter;
-import usj.genielogiciel.investingapp.filter.CustomAuthorizationFilter;
+import usj.genielogiciel.investingapp.security.filter.CustomAuthenticationFilter;
+import usj.genielogiciel.investingapp.security.filter.CustomAuthorizationFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
