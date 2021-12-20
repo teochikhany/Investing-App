@@ -42,21 +42,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         // Creating an Authentication Filter before every Request
-        CustomAuthenticationFilter filter = new CustomAuthenticationFilter(this.authenticationManager());
-
         // Set the endpoint for login, instead of the default /login
+        CustomAuthenticationFilter filter = new CustomAuthenticationFilter(this.authenticationManager());
         filter.setFilterProcessesUrl("/api/v1/login");
 
         // Define which route which user (role) has access to
         http.cors();
-        http.csrf().disable();  // this disables the csrf protection, TODO: should remove this
+        // I don't need csrf protection since I use Json Web Token in the header of each request
+        http.csrf().disable(); // this disables the csrf protection
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // hasAuthority("ROLE_ADMIN") is equal to hasRole("ADMIN"), both check the Collection of GrantedAuthority
+        // http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST,"/api/v1/login").permitAll();
         http.authorizeRequests().antMatchers(POST,"/api/v1/user/save").permitAll();
         http.authorizeRequests().antMatchers(POST,"/api/v1/role/save").permitAll();
         http.authorizeRequests().antMatchers(GET,"/api/v1/user/refreshtoken").permitAll();
-        // hasAuthority("ROLE_ADMIN") is equal to hasRole("ADMIN"), both check the Collection of GrantedAuthority
-        // http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().authenticated();
 
         // Adding the filters to run before each request
