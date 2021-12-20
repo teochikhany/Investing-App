@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import usj.genielogiciel.investingapp.exceptions.VariableValidation;
 import usj.genielogiciel.investingapp.model.AppUser;
+import usj.genielogiciel.investingapp.model.AppUserInfo;
 import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.model.RoleToUserForm;
 import usj.genielogiciel.investingapp.service.UserService;
@@ -42,19 +43,25 @@ public class UserController
     private final UserService userService;
 
     @GetMapping("/users")
-    private ResponseEntity<List<AppUser>> getUsers()
+    private ResponseEntity<List<AppUserInfo>> getUsers()
     {
-        return ResponseEntity.ok(userService.getUsers());
+        return ResponseEntity.ok(userService.getUsers()
+                .stream()
+                .map(user -> new AppUserInfo(user.getUsername(),user.getName()))
+                .collect(Collectors.toList()));
     }
 
     @PostMapping("/user/save")
-    private ResponseEntity<AppUser> addUser(@RequestBody @Valid AppUser user, Errors errors)
+    private ResponseEntity<AppUserInfo> addUser(@RequestBody @Valid AppUser user, Errors errors)
     {
         if (errors.hasErrors()) {
             throw new VariableValidation(errors);
         }
 
-        return new ResponseEntity<AppUser>(userService.saveUser(user), HttpStatus.CREATED);
+        final AppUser appUser = userService.saveUser(user);
+        final AppUserInfo appUserInfo = new AppUserInfo(appUser.getUsername(), appUser.getName());
+
+        return new ResponseEntity<AppUserInfo>(appUserInfo, HttpStatus.CREATED);
     }
 
     @PostMapping("/role/save")
