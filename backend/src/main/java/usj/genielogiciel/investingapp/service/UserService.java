@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface UserService
 {
-    // TODO: should not return AppUser because the hashed password will be exposed
     AppUser saveUser(AppUser user);
     Role saveRole(Role role);
     void addRoleToUser(String username, String roleName);
