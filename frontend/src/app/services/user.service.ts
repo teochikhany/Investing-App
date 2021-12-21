@@ -85,6 +85,7 @@ export class UserService {
         return request;
     }
 
+    // TODO: should probably make a /logout request
     clearTokens()
     {
         localStorage.removeItem("refresh_token");

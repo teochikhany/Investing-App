@@ -18,6 +18,7 @@ export class AppComponent {
         this.userService.clearTokens();
     }
 
+    // TODO: check bug for this, if i dont log out, restart the server and check
     isLogedIn() : boolean
     {
         return this.userService.getAccessToken2() != "";
