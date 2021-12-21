@@ -20,6 +20,7 @@ import usj.genielogiciel.investingapp.model.AppUser;
 import usj.genielogiciel.investingapp.model.AppUserInfo;
 import usj.genielogiciel.investingapp.model.Role;
 import usj.genielogiciel.investingapp.model.RoleToUserForm;
+import usj.genielogiciel.investingapp.security.SecurityUtils;
 import usj.genielogiciel.investingapp.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,25 +90,13 @@ public class UserController
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
         {
             try{
-                //TODO: put this redundant code in a Utils class (maybe singleton, or @Bean, or both ???)
-
                 // Reading the token from the request
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
 
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // not how it should be done in production
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-
-                String username = decodedJWT.getSubject();
+                String username = SecurityUtils.getSubject(refresh_token);
                 AppUser user = userService.getUser(username);
 
-                String access_token = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000) )
-                        .withIssuer(request.getRequestURI())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                        .sign(algorithm);
-
+                String access_token = SecurityUtils.getAccessToken(user, request.getRequestURI());
 
                 // putting the tokens in the response
                 Map<String, String> tokens = new HashMap<>();

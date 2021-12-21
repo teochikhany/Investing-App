@@ -8,6 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import usj.genielogiciel.investingapp.model.AppUser;
+import usj.genielogiciel.investingapp.model.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +36,16 @@ public class SecurityUtils
                 .sign(algorithm);
     }
 
+    static public String getAccessToken(AppUser user, String URI)
+    {
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000) )
+                .withIssuer(URI)
+                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
+    }
+
     static public String getRefreshToken(User user, String URI)
     {
         return JWT.create()
@@ -41,6 +53,12 @@ public class SecurityUtils
                 .withExpiresAt(new Date(System.currentTimeMillis() +  2   *   60    * 60 * 1000) )
                 .withIssuer(URI)
                 .sign(algorithm);
+    }
+
+    static public String getSubject(String token)
+    {
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT.getSubject();
     }
 
 
