@@ -22,6 +22,7 @@ public class InvestingAppApplication
 {
 
     // TODO: add more unit test, for each endpoint, with error code and error messages
+    // TODO: recheck all throws to be with checked exceptions
 
     public static void main(String[] args)
     {
