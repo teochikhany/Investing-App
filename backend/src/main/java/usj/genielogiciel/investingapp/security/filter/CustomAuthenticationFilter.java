@@ -38,6 +38,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         this.authenticationManager = authenticationManager;
     }
 
+    // TODO: how to check who is the authenticated user
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException
@@ -51,7 +52,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 new UsernamePasswordAuthenticationToken(username, password);
 
         return authenticationManager.authenticate(authenticationToken);
-
     }
 
     @Override
@@ -60,6 +60,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                             FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException
     {
+        // TODO: stateless handling of user request
+        // stateful -> keep track of the sessionID in the backend (db)
+        // stateless -> No database, does not keep track of sessionIDs, everything needed is in the request
+
+        // TODO: jwt token-based authentication (vs form based authentication - vs basic Auth)
+        // basic Auth -> username and password are sent (automatically by the browser) in every request, ?? maybe can't logout from backend ??
+        // form based -> sessionId sent (automatically by the browser) in every request, can logout.
+        // jwt token based -> access_taken sent in every request, can't logout from backend by default, use it when you have multiple services accessing your application
+        // TODO: check if my front end has cookies
         // Get the authenticated User
         User user = (User) authentication.getPrincipal();
 
@@ -69,7 +78,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         // Creating the access token
         String access_token = JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(user.getUsername())             // minutes * seconds
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000) )
                 .withIssuer(request.getRequestURI())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
@@ -77,8 +86,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         // Creating the refresh token
         String refresh_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 120 * 60 * 1000) )
+                .withSubject(user.getUsername())                 // hours * minutes * seconds
+                .withExpiresAt(new Date(System.currentTimeMillis() +  2   *   60    * 60 * 1000) )
                 .withIssuer(request.getRequestURI())
                 .sign(algorithm);
 
