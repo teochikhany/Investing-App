@@ -35,7 +35,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         this.authenticationManager = authenticationManager;
     }
 
-    // TODO: how to check who is the authenticated user
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException
@@ -66,7 +65,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // form based -> sessionId sent (automatically by the browser) in every request, can log out.
         // jwt token based -> access_taken sent in every request, can't log out from backend by default, use it when you have multiple services accessing your application
 
-        // TODO: check if my front end has cookies
         // Get the authenticated User
         User user = (User) authentication.getPrincipal();
 
