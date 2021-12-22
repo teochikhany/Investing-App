@@ -57,7 +57,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                                             FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException
     {
-        // stateless handling of user request vs stateful
+        // stateless handling of user request vs stateful:
         // stateful -> keep track of the sessionID in the backend (db)
         // stateless -> No database, does not keep track of sessionIDs, everything needed is in the request
 

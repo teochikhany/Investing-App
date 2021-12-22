@@ -10,9 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import usj.genielogiciel.investingapp.exceptions.VariableValidation;
@@ -80,6 +82,14 @@ public class UserController
     {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
+    }
+
+    // In case of spring security, you can get your current logged-in user by
+    // Object user = Authentication authentication;
+    @GetMapping("/user")
+    private ResponseEntity<String> getUser(Authentication authentication)
+    {
+        return new ResponseEntity<String>(authentication.getName(), HttpStatus.OK);
     }
 
 
