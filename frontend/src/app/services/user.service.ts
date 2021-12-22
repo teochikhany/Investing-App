@@ -6,6 +6,7 @@ import { tokens } from 'src/app/models/tokens';
 import { Router } from '@angular/router';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable, retry } from 'rxjs';
+import { signupinfo } from '../models/signupinfo';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ import { Observable, retry } from 'rxjs';
 export class UserService {
 
     private readonly loginUrl = 'http://localhost:8080/api/v1/login';
+    private readonly signUrl = 'http://localhost:8080/api/v1/user/save';
     private readonly refreshTokenUrl = 'http://localhost:8080/api/v1/user/refreshtoken';
     private accessToken = ""
     private jwtHelper = new JwtHelperService();
@@ -85,7 +87,20 @@ export class UserService {
         return request;
     }
 
-    // TODO: should probably make a /logout request
+    createUser(user: signupinfo)
+    {
+        var request = this.http.post<signupinfo>(this.signUrl, user, { observe: 'response' })
+
+        request.subscribe({
+            next: (value: HttpResponse<signupinfo>) => {
+                this.notification.showMessage("User Created Successfully");
+                this.changeRoute("/login");
+            },
+            error: err => { this.notification.showError(err); }
+        });
+    }
+
+    // jwt token based authentication does not have a logout endpoint by default
     clearTokens()
     {
         localStorage.removeItem("refresh_token");

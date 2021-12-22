@@ -18,7 +18,7 @@ export class SignupComponent implements OnInit {
     }
 
     signup() {
-
+        this.userService.createUser(this.user);
     }
 
 }
