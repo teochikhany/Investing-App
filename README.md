@@ -1,6 +1,13 @@
 # Investing-App
 
-## To-do
-- [X] Validation for price using directives  
-- [X] Add EXPOSE $PORT to Dockerfile
-- [X] Docker for dev (hot reload) and prod (build the executable), using 2 docker files
+## Backend 
+- Springboot web and Springboot Security
+- CRUD operations
+- Authentication and Authorization
+- JWT token based authentication
+
+## Frontend
+- Angular and Angular Material
+- Routes
+- Services
+- HttpInterceptor
