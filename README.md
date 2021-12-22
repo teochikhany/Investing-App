@@ -5,9 +5,8 @@
 - CRUD operations
 - Authentication and Authorization
 - JWT token based authentication
+- Unit tests
 
 ## Frontend
 - Angular and Angular Material
-- Routes
-- Services
-- HttpInterceptor
+- WIth Routes, Services and HttpInterceptor
