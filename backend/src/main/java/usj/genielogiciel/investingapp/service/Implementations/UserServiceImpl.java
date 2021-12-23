@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
     // making the AppUser the User used by SpringBoot Security for login
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    public UserDetails loadUserByUsername(String username)
     {
         // Finding the AppUser
         AppUser user = userRepository.findByUsername(username);

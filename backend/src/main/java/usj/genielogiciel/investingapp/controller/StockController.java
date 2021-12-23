@@ -43,7 +43,7 @@ public class StockController
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    private int addStock(@RequestBody @Valid Stock stock, Errors errors) throws VariableValidation
+    private int addStock(@RequestBody @Valid Stock stock, Errors errors)
     {
         if (errors.hasErrors()) {
             throw new VariableValidation(errors);
