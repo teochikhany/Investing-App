@@ -2,17 +2,21 @@ version: "3.9"
 services:
 
   frontend:
+    container_name: frontend-prod
+    image:          investing-app-frontend-prod
     build: 
       context:      .\frontend
       dockerfile:   .\Dockerfile-Prod
     ports:
-      - "80:80"
+      - "4200:4200"
     networks:
       - investing-app-network
     depends_on:
       - backend
 
   backend:
+    container_name: backend-prod
+    image:          investing-app-backend-prod
     build: 
       context:      .\backend
       dockerfile:   .\Dockerfile-Prod
