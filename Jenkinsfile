@@ -9,6 +9,7 @@ pipeline {
             }
         }
 
+        // TODO: why does this dowload stuff, even though everything should be installed per the previous step ?
         stage('Build Backend') {
             steps {
                 bat 'docker exec backend-dev mvn clean install -DskipTests'
