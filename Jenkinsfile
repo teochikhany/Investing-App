@@ -1,6 +1,8 @@
 pipeline {
     agent any
     
+    // TODO: check what .dockerignore does exactly
+
     stages {
 
         stage('setup dev env') {
@@ -18,7 +20,9 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                bat 'docker exec frontend-dev ng build'
+                bat 'docker exec frontend-dev ng build --output-path=/output'
+                bat 'docker exec frontend-dev mkdir -p /home/angular/dist/investing-frontend/'
+                bat 'docker exec frontend-dev mv /output/* /home/angular/dist/investing-frontend/'
             }
         }
 
@@ -35,6 +39,7 @@ pipeline {
         }
 
         // TODO: delete all images and containers
+        // even if a previous step failed
         stage('Clean up') {
             steps {
                 bat 'docker-compose -f ./docker-compose-dev.yaml down'
