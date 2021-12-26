@@ -5,7 +5,7 @@ pipeline {
 
         stage('launch dev docker compose') {
             steps {
-                bat 'docker-compose -f ./docker-compose-dev.yaml up'
+                bat 'docker-compose -d -f ./docker-compose-dev.yaml up'
             }
         }
 
@@ -39,13 +39,13 @@ pipeline {
 
         stage('Clean up') {
             steps {
-                bat 'docker-compose -f ./docker-compose-dev.yaml down'
+                bat 'docker-compose -d -f ./docker-compose-dev.yaml down'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'docker-compose -f ./docker-compose-prod.yaml up'
+                bat 'docker-compose -d -f ./docker-compose-prod.yaml up'
             }
         }
     }
