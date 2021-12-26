@@ -3,7 +3,7 @@ pipeline {
     
     stages {
 
-        stage('launch dev docker compose') {
+        stage('setup dev env') {
             steps {
                 bat 'docker-compose -f ./docker-compose-dev.yaml up -d'
             }
@@ -33,6 +33,7 @@ pipeline {
             }
         }
 
+        // TODO: delete all images and containers
         stage('Clean up') {
             steps {
                 bat 'docker-compose -f ./docker-compose-dev.yaml down'
