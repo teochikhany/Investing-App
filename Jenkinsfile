@@ -29,7 +29,7 @@ pipeline {
 
         stage('Test Backend') {
             steps {
-                bat 'docker exec backend-dev mvn test'
+                bat 'docker exec backend-dev mvn clean test'
             }
         }
 
