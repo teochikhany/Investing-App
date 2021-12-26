@@ -11,29 +11,25 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                bat 'docker container attach backend-dev'
-                sh 'mvn clean install -DskipTests'
+                bat 'docker exec backend-dev mvn clean install -DskipTests'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                bat 'docker container attach frontend-dev'
-                sh 'ng build'
+                bat 'docker exec frontend-dev ng build'
             }
         }
 
         stage('Test Backend') {
             steps {
-                bat 'docker container attach backend-dev'
-                sh 'mvn test'
+                bat 'docker exec backend-dev mvn test'
             }
         }
 
         stage('Test Frontend') {
             steps {
-                bat 'docker container attach frontend-dev'
-                sh 'ng test'
+                bat 'docker exec frontend-dev ng test'
             }
         }
 
