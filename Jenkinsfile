@@ -21,9 +21,9 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 bat 'docker exec frontend-dev ng build --output-path=/output'
-                bat 'docker exec frontend-dev rm -rf /home/angular/dist/investing-frontend/'
-                bat 'docker exec frontend-dev mkdir -p /home/angular/dist/investing-frontend/'
-                bat 'docker exec frontend-dev mv /output/* /home/angular/dist/investing-frontend/'
+                bat 'docker exec frontend-dev rm -rf /home/angular/dist/'
+                bat 'docker exec frontend-dev mkdir -p /home/angular/dist/'
+                bat 'docker exec frontend-dev mv /output /home/angular/dist/investing-frontend'
             }
         }
 
