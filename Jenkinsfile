@@ -3,43 +3,43 @@ pipeline {
     
     stages {
 
+        stage('launch dev docker compose') {
+            steps {
+                sh 'docker-compose -f ./docker-compose-dev.yaml up'
+            }
+        }
+
         stage('Build Backend') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile-Dev'
-                    dir './backend'
-                    args '-v ./backend/:/home/springboot/ mvn clean install -DskipTests'
-                }
+            steps {
+                sh 'docker container attach backend-dev'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
         stage('Build Frontend') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile-Dev'
-                    dir './frontend'
-                    args '-v ./frontend/:/home/angular/ ng build'
-                }
+            steps {
+                sh 'docker container attach frontend-dev'
+                sh 'ng build'
             }
         }
 
         stage('Test Backend') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile-Dev'
-                    dir './backend'
-                    args '-v ./backend/:/home/springboot/ mvn test'
-                }
+            steps {
+                sh 'docker container attach backend-dev'
+                sh 'mvn test'
             }
         }
 
         stage('Test Frontend') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile-Dev'
-                    dir './frontend'
-                    args '-v ./frontend/:/home/angular/ ng test'
-                }
+            steps {
+                sh 'docker container attach frontend-dev'
+                sh 'ng test'
+            }
+        }
+
+        stage('Clean up') {
+            steps {
+                sh 'docker-compose -f ./docker-compose-dev.yaml down'
             }
         }
 

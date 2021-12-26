@@ -10,7 +10,8 @@ RUN npm install --save @angular/material @angular/cdk @angular/animations
 
 COPY ./ /home/angular/
 
-CMD [""]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+# CMD [""]
 
 # EXPOSE 4200
 

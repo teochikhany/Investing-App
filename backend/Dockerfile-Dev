@@ -11,7 +11,10 @@ RUN mvn dependency:resolve
 # copy the project
 COPY ./ /home/springboot/
 
-CMD [""]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+# CMD [""]
+
 # build the project
 # RUN mvn clean install
 
