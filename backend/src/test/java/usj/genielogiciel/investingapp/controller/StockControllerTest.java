@@ -82,7 +82,8 @@ public class StockControllerTest
                 .header("Authorization", accessToken)
                 .content(stock)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-        int newStockID = Integer.parseInt(result.getResponse().getContentAsString());
+        val jsonResult = new JSONObject(result.getResponse().getContentAsString());
+        int newStockID = jsonResult.getInt("data");
 
         ResultActions resultActions = mockMvc.perform(get(url+newStockID).header("Authorization", accessToken));
         resultActions.andExpect(status().isOk());

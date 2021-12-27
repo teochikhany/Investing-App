@@ -1,20 +1,24 @@
 package usj.genielogiciel.investingapp.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import usj.genielogiciel.investingapp.exceptions.VariableValidation;
 import usj.genielogiciel.investingapp.model.webResponce;
 import usj.genielogiciel.investingapp.model.Stock;
 import usj.genielogiciel.investingapp.service.StockService;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @RestController()
 @RequestMapping("/api/v1/stocks/")
 public class StockController
@@ -28,10 +32,17 @@ public class StockController
     }
 
     @GetMapping("")
-    @ResponseStatus(HttpStatus.OK)
-    private List<Stock> getAllStocks()
+    private ResponseEntity<webResponce> getAllStocks()
     {
-        return stockService.getStocks();
+        List<Stock> stockList = stockService.getStocks();
+
+        val result = webResponce.builder()
+                .timestamp(new Date())
+                .statusCode(HttpStatus.OK.value())
+                .data(stockList.toString())
+                .build();
+
+        return new ResponseEntity<webResponce>(result, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -41,6 +52,8 @@ public class StockController
 
         if (!stock.isPresent())
         {
+            log.error("Cannot find Stock with id: {} in getStock", id);
+
             val result = webResponce.builder()
                                                     .timestamp(new Date())
                                                     .statusCode(HttpStatus.NOT_FOUND.value())
@@ -50,39 +63,78 @@ public class StockController
         }
 
         val result = webResponce.builder()
-                .timestamp(new Date())
-                .statusCode(HttpStatus.OK.value())
-                .data(stock.get().toString())
-                .build();
+                                            .timestamp(new Date())
+                                            .statusCode(HttpStatus.OK.value())
+                                            .data(stock.get().toString())
+                                            .build();
         return new ResponseEntity<webResponce>(result, HttpStatus.OK);
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    private int addStock(@RequestBody @Valid Stock stock, Errors errors)
+    private ResponseEntity<webResponce> addStock(@RequestBody @Valid Stock stock, Errors errors)
     {
         if (errors.hasErrors()) {
-            throw new VariableValidation(errors);
+            log.error("Variable Validation error in addStock");
+
+            val result = webResponce.builder()
+                                                .timestamp(new Date())
+                                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                                .errorMessage(getErrors(errors))
+                                                .build();
+            return new ResponseEntity<webResponce>(result, HttpStatus.BAD_REQUEST);
         }
 
-        return stockService.addStock(stock);
+        val stockId = stockService.addStock(stock);
+
+        val result = webResponce.builder()
+                                            .timestamp(new Date())
+                                            .statusCode(HttpStatus.OK.value())
+                                            .data(stockId + "")
+                                            .build();
+
+        return new ResponseEntity<webResponce>(result, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    private void deleteStock(@PathVariable int id)
+    private ResponseEntity<webResponce> deleteStock(@PathVariable int id)
     {
         stockService.deleteStock(id);
+
+        val result = webResponce.builder()
+                                            .timestamp(new Date())
+                                            .statusCode(HttpStatus.OK.value())
+                                            .build();
+
+        return new ResponseEntity<webResponce>(result, HttpStatus.OK);
     }
 
-    @PutMapping("")
-    @ResponseStatus(HttpStatus.OK)
-    private void updateStock(@RequestBody @Valid Stock stock, Errors errors)
+//    @PutMapping("")
+//    @ResponseStatus(HttpStatus.OK)
+//    private void updateStock(@RequestBody @Valid Stock stock, Errors errors)
+//    {
+//        if (errors.hasErrors()) {
+//            throw new VariableValidation(errors);
+//        }
+//
+//        stockService.updateStock(stock);
+//    }
+
+    private String getErrors(Errors errors)
     {
-        if (errors.hasErrors()) {
-            throw new VariableValidation(errors);
+        String exceptionMessage = "";
+        List<ConstraintViolation<?>> violationsList = new ArrayList<>();
+
+        for (ObjectError e : errors.getAllErrors())
+        {
+            violationsList.add(e.unwrap(ConstraintViolation.class));
         }
 
-        stockService.updateStock(stock);
+        // Construct a helpful message for each input violation
+        for (ConstraintViolation<?> violation : violationsList)
+        {
+            exceptionMessage += violation.getMessage() + "\n";
+        }
+
+        return exceptionMessage;
     }
 }

@@ -38,6 +38,7 @@ public class StockServiceImpl implements StockService
     @Override
     public Optional<Stock> getStock(int id)
     {
+        logger.info("Getting stock with id: {}", id);
         return stockRepository.findById(id);
     }
 
@@ -57,7 +58,6 @@ public class StockServiceImpl implements StockService
         {
             logger.error(MessageFormat.format("Delete: No stock with id: {0}", id));
             return;
-//            throw new StockNotFound(id);
         }
 
         logger.info(MessageFormat.format("Deleting stock with id: {0}", id));

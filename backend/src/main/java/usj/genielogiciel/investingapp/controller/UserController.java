@@ -3,21 +3,20 @@ package usj.genielogiciel.investingapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import usj.genielogiciel.investingapp.exceptions.VariableValidation;
-import usj.genielogiciel.investingapp.model.AppUser;
-import usj.genielogiciel.investingapp.model.AppUserInfo;
-import usj.genielogiciel.investingapp.model.Role;
-import usj.genielogiciel.investingapp.model.RoleToUserForm;
+import usj.genielogiciel.investingapp.model.*;
 import usj.genielogiciel.investingapp.security.SecurityUtils;
 import usj.genielogiciel.investingapp.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -45,27 +44,41 @@ public class UserController
     }
 
     @PostMapping("/user/save")
-    private ResponseEntity<AppUserInfo> addUser(@RequestBody @Valid AppUser user, Errors errors)
+    private ResponseEntity<webResponce> addUser(@RequestBody @Valid AppUser user, Errors errors)
     {
+
         if (errors.hasErrors()) {
-            throw new VariableValidation(errors);
+            log.error("Variable Validation error in addUser");
+
+            val result = webResponce.builder()
+                                                .timestamp(new Date())
+                                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                                .errorMessage(getErrors(errors))
+                                                .build();
+            return new ResponseEntity<webResponce>(result, HttpStatus.BAD_REQUEST);
         }
 
         final AppUser appUser = userService.saveUser(user);
         final AppUserInfo appUserInfo = new AppUserInfo(appUser.getUsername(), appUser.getName());
 
-        return new ResponseEntity<AppUserInfo>(appUserInfo, HttpStatus.CREATED);
+        val result = webResponce.builder()
+                .timestamp(new Date())
+                .statusCode(HttpStatus.CREATED.value())
+                .data(appUserInfo.toString())
+                .build();
+
+        return new ResponseEntity<webResponce>(result, HttpStatus.CREATED);
     }
 
-    @PostMapping("/role/save")
-    private ResponseEntity<Role> addRole(@RequestBody @Valid Role role, Errors errors)
-    {
-        if (errors.hasErrors()) {
-            throw new VariableValidation(errors);
-        }
-
-        return new ResponseEntity<Role>(userService.saveRole(role), HttpStatus.CREATED);
-    }
+//    @PostMapping("/role/save")
+//    private ResponseEntity<Role> addRole(@RequestBody @Valid Role role, Errors errors)
+//    {
+//        if (errors.hasErrors()) {
+//            throw new VariableValidation(errors);
+//        }
+//
+//        return new ResponseEntity<Role>(userService.saveRole(role), HttpStatus.CREATED);
+//    }
 
     @PostMapping("/role/saveToUser")
     private ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form)
@@ -118,5 +131,24 @@ public class UserController
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         }
+    }
+
+    private String getErrors(Errors errors)
+    {
+        String exceptionMessage = "";
+        List<ConstraintViolation<?>> violationsList = new ArrayList<>();
+
+        for (ObjectError e : errors.getAllErrors())
+        {
+            violationsList.add(e.unwrap(ConstraintViolation.class));
+        }
+
+        // Construct a helpful message for each input violation
+        for (ConstraintViolation<?> violation : violationsList)
+        {
+            exceptionMessage += violation.getMessage() + "\n";
+        }
+
+        return exceptionMessage;
     }
 }

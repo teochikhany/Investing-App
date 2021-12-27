@@ -35,19 +35,19 @@ public class ExceptionHandeler extends ResponseEntityExceptionHandler
 //        return new ResponseEntity<webResponce>(exceptionResponse, HttpStatus.NOT_FOUND);
 //    }
 
-    @ExceptionHandler(VariableValidation.class)
-    public final ResponseEntity<webResponce> handleConstraintViolationExceptions(VariableValidation ex)
-    {
-        log.error("An Exception has been raised, Variable Validation");
-
-        webResponce exceptionResponse = webResponce.builder()
-                                                            .timestamp(new Date())
-                                                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                                                            .errorMessage(ex.getMessage())
-                                                            .build();
-
-        return new ResponseEntity<webResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(VariableValidation.class)
+//    public final ResponseEntity<webResponce> handleConstraintViolationExceptions(VariableValidation ex)
+//    {
+//        log.error("An Exception has been raised, Variable Validation");
+//
+//        webResponce exceptionResponse = webResponce.builder()
+//                                                            .timestamp(new Date())
+//                                                            .statusCode(HttpStatus.BAD_REQUEST.value())
+//                                                            .errorMessage(ex.getMessage())
+//                                                            .build();
+//
+//        return new ResponseEntity<webResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public final ResponseEntity<webResponce> handleSqlExceptions(DataIntegrityViolationException ex, WebRequest request)
