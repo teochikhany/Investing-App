@@ -68,7 +68,7 @@ public class UserControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Name cannot be empty\n", json.getString("message"));
+        assertEquals("Name cannot be empty\n", json.getString("errorMessage"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class UserControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Username cannot be empty\n", json.getString("message"));
+        assertEquals("Username cannot be empty\n", json.getString("errorMessage"));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class UserControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Password cannot be empty\n", json.getString("message"));
+        assertEquals("Password cannot be empty\n", json.getString("errorMessage"));
     }
 
     @Test

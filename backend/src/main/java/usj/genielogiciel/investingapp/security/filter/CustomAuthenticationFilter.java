@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import usj.genielogiciel.investingapp.model.ExceptionResponce;
+import usj.genielogiciel.investingapp.model.ResponceEntity;
 import usj.genielogiciel.investingapp.security.SecurityUtils;
 
 import javax.servlet.FilterChain;
@@ -86,10 +86,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     {
         log.error("failed authentication attempt");
 
-        var test = new ExceptionResponce(
-                                new Date(),
-                                HttpStatus.UNAUTHORIZED.value(),
-                        "Wrong Credentials");
+        var test = ResponceEntity.builder()
+            .timestamp(new Date())
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
+            .errorMessage("Wrong Credentials")
+            .build();
 
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(403);

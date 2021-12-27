@@ -97,7 +97,7 @@ public class StockControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("No Stock with this id: " + 999, json.getString("message"));
+        assertEquals("No Stock with this id: " + 999, json.getString("errorMessage"));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class StockControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Name cannot be empty\n", json.getString("message"));
+        assertEquals("Name cannot be empty\n", json.getString("errorMessage"));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class StockControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Ticker cannot be empty\n", json.getString("message"));
+        assertEquals("Ticker cannot be empty\n", json.getString("errorMessage"));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class StockControllerTest
         final MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         JSONObject json = new JSONObject(response);
-        assertEquals("Ticker needs to be unique", json.getString("message"));
+        assertEquals("Ticker needs to be unique", json.getString("errorMessage"));
     }
 
     private String createStock(String name, String ticker, String price) throws JSONException

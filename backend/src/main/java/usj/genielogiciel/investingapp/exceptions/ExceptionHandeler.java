@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import usj.genielogiciel.investingapp.model.ExceptionResponce;
+import usj.genielogiciel.investingapp.model.ResponceEntity;
 
 import java.util.Date;
 import java.util.Objects;
@@ -22,29 +22,35 @@ public class ExceptionHandeler extends ResponseEntityExceptionHandler
 {
 
     @ExceptionHandler(StockNotFound.class)
-    public final ResponseEntity<ExceptionResponce> handleNotFoundException(StockNotFound ex, WebRequest request)
+    public final ResponseEntity<ResponceEntity> handleNotFoundException(StockNotFound ex, WebRequest request)
     {
         log.error("An Exception has been raised, cannot found Stock");
 
-        ExceptionResponce exceptionResponse
-                = new ExceptionResponce(new Date(), HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        ResponceEntity exceptionResponse = ResponceEntity.builder()
+                                                            .timestamp(new Date())
+                                                            .statusCode(HttpStatus.NOT_FOUND.value())
+                                                            .errorMessage(ex.getMessage())
+                                                            .build();
 
-        return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ResponceEntity>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(VariableValidation.class)
-    public final ResponseEntity<ExceptionResponce> handleConstraintViolationExceptions(VariableValidation ex)
+    public final ResponseEntity<ResponceEntity> handleConstraintViolationExceptions(VariableValidation ex)
     {
         log.error("An Exception has been raised, Variable Validation");
 
-        ExceptionResponce exceptionResponse
-                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        ResponceEntity exceptionResponse = ResponceEntity.builder()
+                                                            .timestamp(new Date())
+                                                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                                                            .errorMessage(ex.getMessage())
+                                                            .build();
 
-        return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponceEntity>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public final ResponseEntity<ExceptionResponce> handleSqlExceptions(DataIntegrityViolationException ex, WebRequest request)
+    public final ResponseEntity<ResponceEntity> handleSqlExceptions(DataIntegrityViolationException ex, WebRequest request)
     {
         String message = "";
 
@@ -59,21 +65,27 @@ public class ExceptionHandeler extends ResponseEntityExceptionHandler
 
         log.error("Sql Error: {}", message);
 
-        ExceptionResponce exceptionResponse
-                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), message);
+        ResponceEntity exceptionResponse = ResponceEntity.builder()
+                                                            .timestamp(new Date())
+                                                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                                                            .errorMessage(message)
+                                                            .build();
 
-        return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponceEntity>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponce> handleAllExceptions(Exception ex)
+    public final ResponseEntity<ResponceEntity> handleAllExceptions(Exception ex)
     {
         log.error("An Unknown Exception has been raised, {}", ex.getClass().toString());
 
-        ExceptionResponce exceptionResponse
-                = new ExceptionResponce(new Date(), HttpStatus.BAD_REQUEST.value(), "Unknown error Occurred");
+        ResponceEntity exceptionResponse = ResponceEntity.builder()
+                                                            .timestamp(new Date())
+                                                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                                                            .errorMessage("Unknown error Occurred")
+                                                            .build();
 
-        return new ResponseEntity<ExceptionResponce>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponceEntity>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
