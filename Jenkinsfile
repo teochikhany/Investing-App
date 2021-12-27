@@ -53,8 +53,6 @@ pipeline {
         always {
             echo 'Done, cleaning up'
             bat 'docker-compose -f ./docker-compose-dev.yaml down'
-            bat 'docker rm frontend-dev'
-            bat 'docker rm backend-dev'
             bat 'docker rmi investing-app-frontend-dev'
             bat 'docker rmi investing-app-backend-dev'
         }
