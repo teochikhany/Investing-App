@@ -35,7 +35,7 @@ pipeline {
 
         stage('Test Frontend') {
             steps {
-                bat echo todo
+                bat 'echo todo'
                 // bat 'docker exec frontend-dev ng test'
             }
         }
