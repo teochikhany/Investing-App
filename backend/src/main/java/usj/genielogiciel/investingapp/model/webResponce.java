@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponceEntity
+public class webResponce
 {
     private Date timestamp;
     private int statusCode;

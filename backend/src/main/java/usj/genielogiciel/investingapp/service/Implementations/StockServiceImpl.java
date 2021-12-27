@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import usj.genielogiciel.investingapp.exceptions.StockNotFound;
 import usj.genielogiciel.investingapp.model.Stock;
 import usj.genielogiciel.investingapp.repository.StockRepository;
 import usj.genielogiciel.investingapp.service.StockService;
@@ -37,17 +36,9 @@ public class StockServiceImpl implements StockService
     }
 
     @Override
-    public Stock getStock(int id)
+    public Optional<Stock> getStock(int id)
     {
-        final Optional<Stock> stock = stockRepository.findById(id);
-        if (!stock.isPresent())
-        {
-            logger.error(MessageFormat.format("Add: No stock with id: {0}", id));
-            throw new StockNotFound(id);
-        }
-
-        logger.info(MessageFormat.format("Getting stock with id: {0}", id));
-        return stock.get();
+        return stockRepository.findById(id);
     }
 
     @Override
@@ -65,7 +56,8 @@ public class StockServiceImpl implements StockService
         if (!stock.isPresent())
         {
             logger.error(MessageFormat.format("Delete: No stock with id: {0}", id));
-            throw new StockNotFound(id);
+            return;
+//            throw new StockNotFound(id);
         }
 
         logger.info(MessageFormat.format("Deleting stock with id: {0}", id));

@@ -1,18 +1,18 @@
 package usj.genielogiciel.investingapp.service;
 
+import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.TransactionSystemException;
-import usj.genielogiciel.investingapp.exceptions.StockNotFound;
 import usj.genielogiciel.investingapp.model.Stock;
 
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class stockServiceTest
@@ -39,11 +39,8 @@ public class stockServiceTest
     @Test
     public void getInvalidStock()
     {
-        StockNotFound thrown = Assertions.assertThrows(StockNotFound.class, () -> {
-            stockService.getStock(999);
-        });
-
-        assertEquals("No Stock with this id: 999", thrown.getMessage());
+        val result = stockService.getStock(999);
+        assertFalse(result.isPresent());
     }
 
     @Test
@@ -111,13 +108,12 @@ public class stockServiceTest
     @Test
     public void deleteInvalidStock()
     {
-        Stock stock = new Stock(0, "name", "ticker", 45);
+        Stock stock = new Stock(99, "name", "ticker", 45);
         stockService.addStock(stock);
 
-        StockNotFound thrown = Assertions.assertThrows(StockNotFound.class, () -> {
-            stockService.deleteStock(99);
-        });
+        stockService.deleteStock(99);
 
-        assertEquals("No Stock with this id: 99", thrown.getMessage());
+        val result = stockService.getStock(99);
+        assertFalse(result.isPresent());
     }
 }

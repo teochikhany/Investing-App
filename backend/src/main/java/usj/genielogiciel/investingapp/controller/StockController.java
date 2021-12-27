@@ -1,18 +1,18 @@
 package usj.genielogiciel.investingapp.controller;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import usj.genielogiciel.investingapp.exceptions.VariableValidation;
+import usj.genielogiciel.investingapp.model.webResponce;
 import usj.genielogiciel.investingapp.model.Stock;
 import usj.genielogiciel.investingapp.service.StockService;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController()
@@ -35,10 +35,26 @@ public class StockController
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    private Stock getStock(@PathVariable int id)
+    private ResponseEntity<webResponce> getStock(@PathVariable int id)
     {
-        return stockService.getStock(id);
+        val stock = stockService.getStock(id);
+
+        if (!stock.isPresent())
+        {
+            val result = webResponce.builder()
+                                                    .timestamp(new Date())
+                                                    .statusCode(HttpStatus.NOT_FOUND.value())
+                                                    .errorMessage("No Stock with this id: " + id)
+                                                    .build();
+            return new ResponseEntity<webResponce>(result, HttpStatus.NOT_FOUND);
+        }
+
+        val result = webResponce.builder()
+                .timestamp(new Date())
+                .statusCode(HttpStatus.OK.value())
+                .data(stock.get().toString())
+                .build();
+        return new ResponseEntity<webResponce>(result, HttpStatus.OK);
     }
 
     @PostMapping("")
