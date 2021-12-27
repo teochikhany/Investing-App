@@ -40,18 +40,35 @@ pipeline {
             }
         }
 
-        // TODO: delete all images and containers
-        // even if a previous step failed
-        stage('Clean up') {
-            steps {
-                bat 'docker-compose -f ./docker-compose-dev.yaml down'
-            }
-        }
-
         stage('Deploy') {
             steps {
-                bat 'docker-compose -f ./docker-compose-prod.yaml up -d'
+                // TODO: maybe I should deploy to docker repo instead
+                bat 'echo todo'
+                // bat 'docker-compose -f ./docker-compose-prod.yaml up -d'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Done, cleaning up'
+            bat 'docker-compose -f ./docker-compose-dev.yaml down'
+            bat 'docker rm frontend-dev'
+            bat 'docker rm backend-dev'
+            bat 'docker rmi investing-app-frontend-dev'
+            bat 'docker rmi investing-app-backend-dev'
+        }
+        success {
+            echo 'I succeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
         }
     }
 }
