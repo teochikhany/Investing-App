@@ -8,11 +8,30 @@ COPY ./pom.xml /home/springboot/pom.xml
 RUN mvn dependency:resolve
 
 
+# copy the project
+COPY ./ /home/springboot/
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+# CMD [""]
+
+# build the project
+# RUN mvn clean install
+
+# WORKDIR /home/springboot/
+
+# EXPOSE 8080
+
+# ENTRYPOINT ["java", "-jar", "/home/springboot/target/InvestingApp-0.0.2.jar"]
+
+
+# For vs code:
+
 # download vs-code and extensions
-WORKDIR /home/
-RUN apt-get -y update
-RUN curl -O https://az764295.vo.msecnd.net/stable/ccbaa2d27e38e5afa3e5c21c1c7bef4657064247/code_1.62.3-1637137107_amd64.deb
-RUN apt-get -y install ./code_1.62.3-1637137107_amd64.deb
+# WORKDIR /home/
+# RUN apt-get -y update
+# RUN curl -O https://az764295.vo.msecnd.net/stable/ccbaa2d27e38e5afa3e5c21c1c7bef4657064247/code_1.62.3-1637137107_amd64.deb
+# RUN apt-get -y install ./code_1.62.3-1637137107_amd64.deb
 # vscjava.vscode-java-debug
 # vscjava.vscode-java-pack
 # redhat.java
@@ -20,19 +39,6 @@ RUN apt-get -y install ./code_1.62.3-1637137107_amd64.deb
 # vscjava.vscode-java-dependency
 # vscjava.vscode-java-test
 # visualstudioexptteam.vscodeintellicode
-
-
-# copy the project
-COPY ./ /home/springboot/
-
-# build the project
-RUN mvn clean install
-
-WORKDIR /home/springboot/
-
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/home/springboot/target/InvestingApp-0.0.2.jar"]
 
 
 ## For IntelliJ IDEA you need:

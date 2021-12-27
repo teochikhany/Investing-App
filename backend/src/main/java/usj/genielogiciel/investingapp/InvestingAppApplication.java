@@ -20,7 +20,11 @@ import java.util.Collections;
 @SpringBootApplication
 public class InvestingAppApplication
 {
-
+    // TODO: make the services return Optional types when necessary
+    // TODO: remove StockNotFound and UserNotFound exceptions
+    // TODO: make ExceptionResponce into EntityResponce, same type for all responces, and make it a builder that does not include null values, like the video
+    // TODO: recheck the .dockerignore files
+    
     public static void main(String[] args)
     {
         SpringApplication.run(InvestingAppApplication.class, args);

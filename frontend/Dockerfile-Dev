@@ -10,6 +10,9 @@ RUN npm install --save @angular/material @angular/cdk @angular/animations
 
 COPY ./ /home/angular/
 
-EXPOSE 4200
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+# CMD [""]
 
-ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0", "--poll", "500"]
+# EXPOSE 4200
+
+# ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0", "--poll", "500"]
