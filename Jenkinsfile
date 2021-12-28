@@ -52,6 +52,8 @@ pipeline {
             bat 'docker-compose -f ./docker-compose-dev.yaml down'
             bat 'docker rmi investing-app-frontend-dev'
             bat 'docker rmi investing-app-backend-dev'
+            bat 'docker rmi teochikhany/investing-app-backend-prod:0.1'
+            bat 'docker rmi teochikhany/investing-app-frontend-prod:0.1'
         }
         success {
             echo 'I succeeded!'
