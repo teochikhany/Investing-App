@@ -9,7 +9,18 @@ pipeline {
             }
         }
 
-        // TODO: fix: the jar it produces is not saved for later deployment
+        stage('Test Backend') {
+            steps {
+                bat 'docker exec backend-dev mvn clean test'
+            }
+        }
+
+        stage('Test Frontend') {
+            steps {
+                bat 'echo todo'
+            }
+        }
+
         stage('Build Backend') {
             steps {
                 bat 'docker exec backend-dev mvn clean install -DskipTests'
@@ -25,18 +36,6 @@ pipeline {
             }
         }
 
-        stage('Test Backend') {
-            steps {
-                bat 'docker exec backend-dev mvn clean test'
-            }
-        }
-
-        stage('Test Frontend') {
-            steps {
-                bat 'echo todo'
-                // bat 'docker exec frontend-dev ng test'
-            }
-        }
 
         stage('Deploy') {
             steps { 
@@ -52,11 +51,11 @@ pipeline {
             bat 'docker-compose -f ./docker-compose-dev.yaml down'
             bat 'docker rmi investing-app-frontend-dev'
             bat 'docker rmi investing-app-backend-dev'
-            bat 'docker rmi teochikhany/investing-app-backend-prod:0.1'
-            bat 'docker rmi teochikhany/investing-app-frontend-prod:0.1'
         }
         success {
             echo 'I succeeded!'
+            bat 'docker rmi teochikhany/investing-app-backend-prod:0.1'
+            bat 'docker rmi teochikhany/investing-app-frontend-prod:0.1'
         }
         unstable {
             echo 'I am unstable :/'
