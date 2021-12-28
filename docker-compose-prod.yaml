@@ -3,7 +3,7 @@ services:
 
   frontend:
     container_name: frontend-prod
-    image:          investing-app-frontend-prod
+    image:          teochikhany/investing-app-frontend-prod:0.1
     build: 
       context:      .\frontend
       dockerfile:   .\Dockerfile-Prod
@@ -16,7 +16,7 @@ services:
 
   backend:
     container_name: backend-prod
-    image:          investing-app-backend-prod
+    image:          teochikhany/investing-app-backend-prod:0.1
     build: 
       context:      .\backend
       dockerfile:   .\Dockerfile-Prod

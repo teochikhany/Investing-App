@@ -39,10 +39,9 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                // TODO: maybe I should deploy to docker repo instead
-                bat 'echo todo'
-                // bat 'docker-compose -f ./docker-compose-prod.yaml up -d'
+            steps { 
+                bat 'docker-compose -f ./docker-compose-prod.yaml build'
+                bat 'docker-compose -f ./docker-compose-prod.yaml push'
             }
         }
     }
