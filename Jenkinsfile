@@ -36,7 +36,7 @@ pipeline {
             }
         }
 
-
+        //TODO: should use withCredentials instead of environment variables
         stage('Deploy') {
             steps { 
                 bat "docker login -u ${env.dockerUsername} -p ${env.dockerPassword}"
