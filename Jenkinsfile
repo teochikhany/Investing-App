@@ -39,6 +39,7 @@ pipeline {
 
         stage('Deploy') {
             steps { 
+                bat 'docker login -u ${env.dockerUsername} -p ${env.dockerPassword}'
                 bat 'docker-compose -f ./docker-compose-prod.yaml build'
                 bat 'docker-compose -f ./docker-compose-prod.yaml push'
             }
