@@ -1,0 +1,28 @@
+:sectnums:
+:sectnumlevels: 5
+:toc: left
+:toclevels: 3
+:page-layout: docs
+
+= Stocks API
+
+[[examples]]
+
+== Examples
+
+=== getAllStocks
+
+==== request
+include::{snippets}/getAllStocks/http-request.adoc[]
+
+==== response
+include::{snippets}/getAllStocks/http-response.adoc[]
+
+
+=== getAllStocksForbidden
+
+==== request
+include::{snippets}/getAllStocksForbidden/http-request.adoc[]
+
+==== response
+include::{snippets}/getAllStocksForbidden/http-response.adoc[]
