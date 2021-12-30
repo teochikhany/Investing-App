@@ -32,6 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 public class StockControllerTest
 {
+    // TODO: add documentation to the appropriate unit tests, links:
+    // https://docs.spring.io/spring-restdocs/docs/current/reference/html5/#getting-started-documentation-snippets-setup-junit-5
+    // https://dimitr.im/spring-rest-docs
+
     @Autowired
     private MockMvc mockMvc;
     private final String url = "/api/v1/stocks/";
