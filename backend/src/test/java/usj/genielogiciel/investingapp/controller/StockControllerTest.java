@@ -3,36 +3,48 @@ package usj.genielogiciel.investingapp.controller;
 import lombok.val;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@SpringBootTest                 // loads complete application context and injects all the beans which can be slow.
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 public class StockControllerTest
 {
-    private final String url = "/api/v1/stocks/";
-    private final MockMvc mockMvc;
-    private final String accessToken;
-
     @Autowired
-    StockControllerTest(MockMvc mockMvc) throws Exception
-    {
-        this.mockMvc = mockMvc;
+    private MockMvc mockMvc;
+    private final String url = "/api/v1/stocks/";
+    private String accessToken;
 
+    @BeforeEach
+    public void setUp() throws Exception
+    {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                                                     .post("/api/v1/login")
                                                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -49,7 +61,7 @@ public class StockControllerTest
     void getAllStocksForbidden() throws Exception
     {
         ResultActions resultActions = mockMvc.perform(get(url));
-        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(status().isForbidden()).andDo(document("getAllStocksForbidden"));
     }
 
     @Test
@@ -70,7 +82,7 @@ public class StockControllerTest
     void getAllStocks() throws Exception
     {
         ResultActions resultActions = mockMvc.perform(get(url).header("Authorization", accessToken));
-        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(status().isOk()).andDo(document("getAllStocks"));
     }
 
     @Test
