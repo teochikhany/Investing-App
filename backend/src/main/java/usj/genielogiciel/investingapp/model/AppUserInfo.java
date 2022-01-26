@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class AppUserInfo
 {
+    // TODO: this should be in a seperate folder called DTO, Data Transfere Object
     @NotEmpty(message = "Username cannot be empty")
     private String username;
 
