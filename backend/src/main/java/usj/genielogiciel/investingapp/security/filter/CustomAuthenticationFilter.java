@@ -63,7 +63,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // jwt token-based authentication (vs form based authentication - vs basic Auth)
         // basic Auth -> username and password are sent (automatically by the browser) in every request, ?? maybe can't log out from backend ??
         // form based -> sessionId sent (automatically by the browser) in every request, can log out.
-        // jwt token based -> access_taken sent in every request, can't log out from backend by default, use it when you have multiple services accessing your application
+        // jwt token based -> access_taken sent in every request, can't log out from backend by default, use it when you have multiple services accessing your application, No session to manage, No cookies required
 
         // Get the authenticated User
         User user = (User) authentication.getPrincipal();
